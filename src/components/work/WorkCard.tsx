@@ -12,8 +12,12 @@ const WorkCard = ({ work }: { work: Work }) => {
         <Tooltip content={work.created_at} placement="bottom">
             <Card
                 title={
-                    <Typography.Title ellipsis={{ showTooltip: true }} heading={4}>
-                        {work.name}
+                    <Typography.Title 
+                        link={{ href: link, target: '_blank' }}
+                        ellipsis={{ showTooltip: true }} 
+                        heading={4}
+                    >
+                        {work.name.replace(/<em>|<\/em>/g, '')}
                     </Typography.Title>
                 }
                 cover={
@@ -28,11 +32,6 @@ const WorkCard = ({ work }: { work: Work }) => {
                         }
                         alt={work.name}
                     />
-                }
-                headerExtraContent={
-                    <Typography.Text link onClick={() => window.open(link, '_blank')}>
-                        看一看？
-                    </Typography.Text>
                 }
             >
                 <Space spacing="tight" wrap>

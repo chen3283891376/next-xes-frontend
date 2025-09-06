@@ -27,7 +27,8 @@ export default function DiscoverPage() {
                     {responseData.total > 50 && (
                         <div style={{ width: '100%' }}>
                             <Pagination
-                                total={Math.ceil(responseData.total / 50) * 10}
+                                total={Math.ceil(responseData.total / 50) * 50}
+                                pageSize={50}
                                 currentPage={currentPage}
                                 onPageChange={page => {
                                     setCurrentPage(page);

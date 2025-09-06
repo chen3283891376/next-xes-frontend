@@ -3,20 +3,8 @@ import React from "react";
 import { BackTop, Dropdown, Nav, Typography } from "@douyinfe/semi-ui";
 import Link from "next/link";
 import SearchInput from "@/components/SearchInput";
-import { IconArrowUp } from "@douyinfe/semi-icons";
 
 const AppNavbar = () => {
-    const style = {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: 30,
-        width: 30,
-        borderRadius: '100%',
-        backgroundColor: '#0077fa',
-        color: '#fff',
-        bottom: 100,
-    };
     return (
         <div style={{ width: '100%' }}>
             <Nav 
@@ -64,9 +52,7 @@ const AppNavbar = () => {
                     >XesCoding</Typography.Title>,
                 }}
             />
-            <BackTop style={style}>
-                <IconArrowUp />
-            </BackTop>
+            <BackTop />
         </div>
     )
 }

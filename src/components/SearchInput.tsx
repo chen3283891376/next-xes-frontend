@@ -29,6 +29,11 @@ const SearchInput = ({ keyword = '' }: { keyword?: string }) => {
             }}
             data={options}
             onSearch={fetchSuggestions}
+            onKeyDown={event => {
+                if (event.key === 'Enter') {
+                    location.href = `/search?keyword=${inputValue}`;
+                }
+            }}
             emptyContent={<Empty style={{ padding: 12 }} image={<IllustrationNoContent style={{ width: 150, height: 150 }}/>} description={'暂无内容'} />}
         />
     );

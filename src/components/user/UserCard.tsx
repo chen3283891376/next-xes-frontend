@@ -27,7 +27,7 @@ const HorizontalUserCard = ({
     return (
         // <Card className={className} style={{ padding: '10px', display: 'flex' }}>
         <Card className={`${className} padding-10 flex`}>
-            <div className='flex justify-between w-full'>
+            <div className="flex justify-between w-full">
                 <Card.Meta
                     avatar={<Avatar size="large" src={user.avatar_path} alt={user.realname} />}
                     title={
@@ -40,9 +40,9 @@ const HorizontalUserCard = ({
                     description={
                         <>
                             <div style={{ fontSize: '14px' }}>
-                                <span>关注：{user.follows}  </span>
-                                <span>粉丝：{user.fans}  </span>
-                                <span>UID：{user.id}  </span>
+                                <span>关注：{user.follows} </span>
+                                <span>粉丝：{user.fans} </span>
+                                <span>UID：{user.id} </span>
                             </div>
                             <Typography>{user.signature}</Typography>
                         </>
@@ -76,7 +76,11 @@ const SmallUserCard = ({ user }: { user: SimpleUserInfo }) => {
                 <Card.Meta
                     avatar={<Avatar size="small" src={user.avatar_path} alt={user.realname} />}
                     title={
-                        <Typography.Text link style={{ fontSize: '20px' }} onClick={() => window.open(userLink, '_blank')}>
+                        <Typography.Text
+                            link
+                            style={{ fontSize: '20px' }}
+                            onClick={() => window.open(userLink, '_blank')}
+                        >
                             {user.realname}
                         </Typography.Text>
                     }

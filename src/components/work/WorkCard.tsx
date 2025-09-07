@@ -12,9 +12,9 @@ const WorkCard = ({ work }: { work: Work }) => {
         <Tooltip content={work.created_at} placement="bottom">
             <Card
                 title={
-                    <Typography.Title 
+                    <Typography.Title
                         link={{ href: link, target: '_blank' }}
-                        ellipsis={{ showTooltip: true }} 
+                        ellipsis={{ showTooltip: true }}
                         heading={4}
                     >
                         {work.name.replace(/<em>|<\/em>/g, '')}

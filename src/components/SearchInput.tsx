@@ -15,16 +15,17 @@ const SearchInput = ({ keyword = '' }: { keyword?: string }) => {
         }
         const response = await fetch(`/api/search/associate_words?keyword=${value}`);
         const responseData: Associate_words = await response.json();
-        setOptions(responseData.data.map(item => decodeURIComponent(item.word.replace(/<em>/g, '').replace(/<\/em>/g, ''))));
+        setOptions(
+            responseData.data.map(item => decodeURIComponent(item.word.replace(/<em>/g, '').replace(/<\/em>/g, ''))),
+        );
     }, []);
 
     return (
-        <AutoComplete 
-            className='mr-3'
+        <AutoComplete
             value={inputValue}
             prefix={<IconSearch />}
-            placeholder='搜点什么？'
-            onChange={(value) => {
+            placeholder="搜点什么？"
+            onChange={value => {
                 setInputValue(String(value));
             }}
             data={options}
@@ -34,7 +35,13 @@ const SearchInput = ({ keyword = '' }: { keyword?: string }) => {
                     location.href = `/search?keyword=${inputValue}`;
                 }
             }}
-            emptyContent={<Empty style={{ padding: 12 }} image={<IllustrationNoContent style={{ width: 150, height: 150 }}/>} description={'暂无内容'} />}
+            emptyContent={
+                <Empty
+                    style={{ padding: 12 }}
+                    image={<IllustrationNoContent style={{ width: 150, height: 150 }} />}
+                    description={'暂无内容'}
+                />
+            }
         />
     );
 };

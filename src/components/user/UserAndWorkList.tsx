@@ -9,7 +9,7 @@ const UserAndWorkList = ({ infos }: { infos: any[] }) => {
         </HorizontalUserCard>
     ));
 
-    return <div className='flex flex-col gap-2'>{cards}</div>;
+    return <div className="flex flex-col gap-2">{cards}</div>;
 };
 
 export { UserAndWorkList };

@@ -39,7 +39,7 @@ const SearchTabs = {
                         {currentPage === 1 && (
                             <>
                                 <UserAndWorkList infos={responseData.data.users.data} />
-                                <Divider className='my-2' />
+                                <Divider className="my-2" />
                                 <WorkList works={responseData.data.works.data} />
                             </>
                         )}
@@ -106,15 +106,15 @@ const SearchTabs = {
                     <>
                         <UserAndWorkList infos={responseData.data.data} />
                         {responseData.data.total > 10 && (
-                                <Pagination
-                                    pageCount={Math.ceil(responseData.data.total / 10)}
-                                    pageSize={10}
-                                    value={currentPage}
-                                    handlePageChange={page => {
-                                        setCurrentPage(page);
-                                    }}
-                                    className="mt-2 mx-auto w-fit"
-                                />
+                            <Pagination
+                                pageCount={Math.ceil(responseData.data.total / 10)}
+                                pageSize={10}
+                                value={currentPage}
+                                handlePageChange={page => {
+                                    setCurrentPage(page);
+                                }}
+                                className="mt-2 mx-auto w-fit"
+                            />
                         )}
                     </>,
                 );
@@ -154,15 +154,15 @@ const SearchTabs = {
                     <>
                         <WorkList works={responseData.data.data} />
                         {responseData.data.total > 50 && (
-                                <Pagination
-                                    pageCount={Math.ceil(responseData.data.total / 50)}
-                                    pageSize={50}
-                                    value={currentPage}
-                                    handlePageChange={page => {
-                                        setCurrentPage(page);
-                                    }}
-                                    className="mx-auto w-fit"
-                                />
+                            <Pagination
+                                pageCount={Math.ceil(responseData.data.total / 50)}
+                                pageSize={50}
+                                value={currentPage}
+                                handlePageChange={page => {
+                                    setCurrentPage(page);
+                                }}
+                                className="mx-auto w-fit"
+                            />
                         )}
                     </>,
                 );
@@ -179,8 +179,8 @@ const SearchTabs = {
                 <div className="flex justify-between my-1">
                     <RadioGroup
                         value={lang}
-                        type='button'
-                        onChange={(event) => {
+                        type="button"
+                        onChange={event => {
                             if (event.target.value !== null) {
                                 setLang(event.target.value);
                                 setCurrentPage(1);
@@ -193,9 +193,9 @@ const SearchTabs = {
                         <Radio value="cpp">C++</Radio>
                     </RadioGroup>
                     <RadioGroup
-                        type='button'
+                        type="button"
                         value={orderType}
-                        onChange={(event) => {
+                        onChange={event => {
                             if (event.target.value !== null) {
                                 setOrderType(event.target.value);
                                 setCurrentPage(1);
@@ -253,25 +253,25 @@ export default function SearchPage() {
     };
 
     return (
-            <div className="mt-2 m-4 flex flex-col items-center">
-                    <SearchInput keyword={keyword} />
+        <div className="mt-2 m-4 flex flex-col items-center">
+            <SearchInput keyword={keyword} />
 
-                    <Tabs 
-                        defaultActiveKey={loaderData.tab || 'all'} 
-                        onChange={handleTabChange} 
-                        keepDOM={false} 
-                        className='flex flex-col items-center'
-                    >
-                        <TabPane tab="综合排序" itemKey="all">
-                            <SearchTabs.AllTab keyword={keyword} />
-                        </TabPane>
-                        <TabPane tab="作者" itemKey="users">
-                            <SearchTabs.AuthorTab keyword={keyword} />
-                        </TabPane>
-                        <TabPane tab="项目" itemKey="projects">
-                            <SearchTabs.ProjectsTab keyword={keyword} />
-                        </TabPane>
-                    </Tabs>
-            </div>
+            <Tabs
+                defaultActiveKey={loaderData.tab || 'all'}
+                onChange={handleTabChange}
+                keepDOM={false}
+                className="flex flex-col items-center"
+            >
+                <TabPane tab="综合排序" itemKey="all">
+                    <SearchTabs.AllTab keyword={keyword} />
+                </TabPane>
+                <TabPane tab="作者" itemKey="users">
+                    <SearchTabs.AuthorTab keyword={keyword} />
+                </TabPane>
+                <TabPane tab="项目" itemKey="projects">
+                    <SearchTabs.ProjectsTab keyword={keyword} />
+                </TabPane>
+            </Tabs>
+        </div>
     );
 }

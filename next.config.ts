@@ -2,7 +2,7 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
     /* config options here */
-    transpilePackages: ['@douyinfe/semi-ui'],
+    transpilePackages: ['@douyinfe/semi-ui', '@douyinfe/semi-icons'],
     async rewrites() {
         return [
             {

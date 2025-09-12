@@ -25,7 +25,6 @@ const HorizontalUserCard = ({
     };
 
     return (
-        // <Card className={className} style={{ padding: '10px', display: 'flex' }}>
         <Card className={`${className} padding-10 flex`}>
             <div className="flex justify-between w-full">
                 <Card.Meta

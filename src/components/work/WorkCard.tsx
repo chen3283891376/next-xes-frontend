@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Card, Tag, Space, Typography, Tooltip } from '@douyinfe/semi-ui';
+import { Card, Tag, Space, Typography, Tooltip, Divider } from '@douyinfe/semi-ui';
 import { IconEyeOpened, IconLikeThumb, IconDislikeThumb, IconComment } from '@douyinfe/semi-icons';
 import { getWorkLink } from '@/utils';
 import { Work } from '@/interfaces/work';
@@ -62,4 +62,23 @@ const WorkCard = ({ work }: { work: Work }) => {
     );
 };
 
+const SmallWorkCard = ({ work }: { work: Work }) => {
+    return (
+        <Tooltip placement="top" title={`👀${work.views} 👍${work.likes} 👎${work.unlikes} ${work.created_at}`}>
+            <Card
+                actions={[
+                    <a href={getWorkLink(work)} target="_blank" rel="noopener noreferrer">
+                        <img className="mx-auto" src={work.thumbnail} alt={work.name} style={{ maxHeight: 138 }} />
+                        <Divider />
+                        <Typography.Text link={{ href: getWorkLink(work), target: '_blank' }} style={{ fontSize: 16 }}>
+                            {work.name.replace(/<em>|<\/em>/g, '')}
+                        </Typography.Text>
+                    </a>,
+                ]}
+            />
+        </Tooltip>
+    );
+};
+
 export default WorkCard;
+export { SmallWorkCard };

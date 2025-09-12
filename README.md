@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NextXesFrontend
 
-## Getting Started
+> 学而思新的前端体验（第三方）
 
-First, run the development server:
+> [!WARNING]
+>
+> 因为React19的一些Breaking Changes，导致项目的依赖 Semi Design 还未开发兼容包，故暂时一些功能无法运行。
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 准备开发
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. 下载项目 `git clone https://github.com/chen3283891376/next-xes-frontend.git`
+2. 切换到项目文件夹
+4. 安装依赖项 `npm install`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## npm 脚本
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` 启动开发模式
+- `npm run build` 构建项目
+- `npm run start` 启动已构建的代码
 
-## Learn More
+- `npm run lint` 使用 EsLint 检查代码
+- `npm run format` 使用 Prettier 格式化代码
 
-To learn more about Next.js, take a look at the following resources:
+## 运行开发服务器
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+直接运行 `npm run dev` 即可
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 开发进度
 
-## Deploy on Vercel
+### 功能部分
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- [x] 主页 /
+- [ ] 登录 /login
+- [x] 发现 /discover
+- [x] 搜索 /search
+- [ ] 我的作品 /user
+- [x] 用户信息展示 /userInfo
+- [ ] 最终用户协议（等待补充内容） /eula
+- [x] 关于 /about
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [x] 个人主页
+    - [x] 主页 /space/:userId/home
+    - [x] 封面 /space/:userId/cover
+    - [x] 作品 /space/:userId/projects
+    - [x] 收藏 /space/:userId/favourites
+    - [x] 社交 /space/:userId/social
+
+- [ ] 消息中心
+    - [ ] 评论与回复 /message/1
+    - [ ] 点赞与收藏 不计划制作
+    - [ ] 关注 /message/5
+    - [ ] 反馈与审核 不计划制作
+    - [ ] 系统消息 不计划制作
+
+- [ ] 作品展示页面 /project
+    - [ ] 作品展示
+    - [ ] 评论
+
+- [ ] 作品发布组件 ProjectPublishModal.tsx
+    - [ ] 基本信息填写
+    - [ ] 标签选择
+    - [ ] 封面上传
+
+### 作品部分
+
+- [ ] 作品重定向页面 /ide /embed
+- [ ] TurboWarp /ide/turbowarp /embed/turbowarp
+- [ ] Python 基础 /ide/python /embed/python
+- [ ] Python 海龟 /ide/webpy /embed/webpy
+- [ ] Python 高阶 /ide/pygame /embed/pygame
+- [ ] C++ /ide/cpp /embed/cpp
+
+## 关于贡献
+
+此仓库使用 GPL-3.0 许可证。
+
+请在贡献前阅读 [贡献指南](CONTRIBUTING.md)。
+
+若要报告安全漏洞，请阅读 [安全策略](SECURITY.md)。

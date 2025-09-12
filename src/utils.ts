@@ -13,7 +13,7 @@ export function getWorkLink(work: Work) {
 }
 
 export function getEditWorkLink(work: Work) {
-    let lang = work.project_type;
+    const lang = work.project_type;
     if (lang === 'scratch') {
         return `https://code.xueersi.com/scratch3/index.html?pid=${work.id}&version=3.0&env=community`;
     } else {

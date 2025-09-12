@@ -13,8 +13,8 @@ export default function Home() {
         setIsLoggedIn(document.cookie.includes('is_login=1;') || false);
         const func = async () => {
             const response = await fetch('/api/index/works/follows');
-            let data = await response.json();
-            let workData: Array<Work> = data.data.filter(Boolean);
+            const data = await response.json();
+            const workData: Array<Work> = data.data.filter(Boolean);
             setWorks(workData);
         };
         if (!ignore) func();

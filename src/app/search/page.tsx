@@ -18,7 +18,7 @@ const SearchTabs = {
 
             const func = async () => {
                 let response: Response;
-                let responseData: any;
+                let responseData;
                 if (currentPage === 1) {
                     response = await fetch(
                         `/api/search?keyword=${keyword}&search_type=all&page=${currentPage}&per_page=50`,

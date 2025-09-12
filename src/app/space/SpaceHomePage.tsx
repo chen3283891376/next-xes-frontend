@@ -8,7 +8,6 @@ import {
     IconEyeOpened,
     IconStar,
     IconCopy,
-    IconUser,
     IconBookmark,
     IconArrowRight,
 } from '@douyinfe/semi-icons';

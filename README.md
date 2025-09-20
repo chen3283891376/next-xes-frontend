@@ -10,7 +10,7 @@
 
 1. 下载项目 `git clone https://github.com/chen3283891376/next-xes-frontend.git`
 2. 切换到项目文件夹
-4. 安装依赖项 `npm install`
+3. 安装依赖项 `npm install`
 
 ## npm 脚本
 

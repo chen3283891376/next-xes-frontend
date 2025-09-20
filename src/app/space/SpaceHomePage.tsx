@@ -3,14 +3,7 @@ import { SmallWorkCard } from '@/components/work/WorkCard';
 import WorkList from '@/components/work/WorkList';
 import { SpaceIndex } from '@/interfaces/space';
 import { Button, Card, Typography, Skeleton } from '@douyinfe/semi-ui';
-import {
-    IconLikeHeart,
-    IconEyeOpened,
-    IconStar,
-    IconCopy,
-    IconBookmark,
-    IconArrowRight,
-} from '@douyinfe/semi-icons';
+import { IconLikeHeart, IconEyeOpened, IconStar, IconCopy, IconBookmark, IconArrowRight } from '@douyinfe/semi-icons';
 import React from 'react';
 
 const SpaceHomePage = ({ userId }: { userId: string }) => {

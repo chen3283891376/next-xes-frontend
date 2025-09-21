@@ -70,16 +70,12 @@ const AppNavbar = () => {
                                         <Dropdown.Menu>
                                             <Dropdown.Item icon={<IconCommentStroked />}>
                                                 <Link href="/message/1">
-                                                    <Badge count={messageData?.data[0].count}>
-                                                        评论和回复
-                                                    </Badge>
+                                                    <Badge count={messageData?.data[0].count}>评论和回复</Badge>
                                                 </Link>
                                             </Dropdown.Item>
                                             <Dropdown.Item icon={<IconFollowStroked />}>
                                                 <Link href="/message/5">
-                                                    <Badge count={messageData?.data[3].count}>
-                                                        关注
-                                                    </Badge>
+                                                    <Badge count={messageData?.data[3].count}>关注</Badge>
                                                 </Link>
                                             </Dropdown.Item>
                                         </Dropdown.Menu>
@@ -88,7 +84,7 @@ const AppNavbar = () => {
                                     {/* <Badge count={totalMessageCount}>
                                         <IconBellStroked className='mt-1' />
                                     </Badge> */}
-                                    <IconBellStroked className='mt-1' />
+                                    <IconBellStroked className="mt-1" />
                                 </Dropdown>
 
                                 <Dropdown

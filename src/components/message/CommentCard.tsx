@@ -1,10 +1,10 @@
 import * as React from 'react';
-// import CommentBox from './CommentBox';
 import { Avatar, Badge, Button, Card, Notification, Space, Tooltip } from '@douyinfe/semi-ui';
 import { processEmojiReplace, processLinkReplace } from '@/utils';
 import DOMPurify from 'dompurify';
 
 import type { CommentDataItem } from '@/interfaces/message';
+import CommentBox from '../common/CommentBox';
 
 const CommentCard = ({
     message,
@@ -15,7 +15,7 @@ const CommentCard = ({
     className?: string;
     onRead: () => void;
 }) => {
-    // const [isShow, setIsShow] = React.useState<boolean>(true);
+    const [isShow, setIsShow] = React.useState<boolean>(true);
     const [isShowComment, setIsShowComment] = React.useState<boolean>(false);
     const [needRead, setNeedRead] = React.useState<boolean>(message.read_at == '');
     const sendUserLink = `/space/${message.send_user_id}/home`;
@@ -138,7 +138,7 @@ const CommentCard = ({
                                         title: '删除成功',
                                         duration: 1,
                                     });
-                                    // setIsShow(false);
+                                    setIsShow(false);
                                 }}
                             >
                                 删除
@@ -165,12 +165,12 @@ const CommentCard = ({
                         </a>
                     </Tooltip>
                 </div>
-                {/* <CommentBox
+                <CommentBox
                     isShow={isShowComment}
                     setIsShow={setIsShowComment}
                     topic_id={message.topic_id}
                     comment_id={message.comment_id}
-                /> */}
+                />
             </Card>
         </>
     );

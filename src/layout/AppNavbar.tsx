@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Avatar, BackTop, Badge, Button, Dropdown, IconButton, Nav, Typography } from '@douyinfe/semi-ui';
+import { Avatar, BackTop, Badge, Dropdown, IconButton, Nav, Typography } from '@douyinfe/semi-ui';
 import Link from 'next/link';
 import SearchInput from '@/components/SearchInput';
 
@@ -65,9 +65,7 @@ const AppNavbar = () => {
                     <div className="flex gap-4 mr-4">
                         <SearchInput />
                         {!isLoggedIn ? (
-                            <Button>
-                                <Link href="/login">登录</Link>
-                            </Button>
+                            <Link href="/login">登录</Link>
                         ) : (
                             <div className="flex gap-2">
                                 <Dropdown

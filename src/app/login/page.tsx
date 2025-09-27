@@ -185,7 +185,7 @@ export default function LoginPage() {
                     </Checkbox>
 
                     {!visuallyValue && (
-                        <>
+                        <div className='flex space-between items-center mt-4'>
                             <PinCode
                                 count={4}
                                 format={"mixed"}
@@ -193,7 +193,7 @@ export default function LoginPage() {
                                 onComplete={(value) => setCaptchaAnswer(value)}
                             />
                             <img src={captchaBase64} alt="验证码" style={{ height: '40px' }} />
-                        </>
+                        </div>
                     )}
 
                     <Button

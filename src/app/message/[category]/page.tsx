@@ -138,7 +138,7 @@ export default function MessagePage({ params }: PageParams) {
                     </Grid> */}
             <Sider>
                 <Nav
-                    className="h-[300px]"
+                    style={{ maxWidth: 220, height: '100%' }}
                     onSelect={(data: OnSelectedData) => {
                         handleTabChange(data.itemKey as string);
                     }}

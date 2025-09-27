@@ -15,6 +15,11 @@ const AppNavbar = () => {
     const [messageData, setMessageData] = React.useState<MessageData | null>(null);
     const [totalMessageCount, setTotalMessageCount] = React.useState(0);
 
+    const logoutEvent = async () => {
+        await fetch('/passport/logout');
+        location.reload();
+    };
+
     React.useEffect(() => {
         setIsLoggedIn(document.cookie.includes('is_login=1;') || false);
         const fetchData = async () => {
@@ -97,7 +102,7 @@ const AppNavbar = () => {
                                                 <Link href="/userInfo">个人信息</Link>
                                             </Dropdown.Item>
                                             <Dropdown.Divider />
-                                            <Dropdown.Item>
+                                            <Dropdown.Item onClick={logoutEvent}>
                                                 {/* <Link href="/logout">退出登录</Link> */}
                                                 退出登录
                                             </Dropdown.Item>

@@ -23,7 +23,11 @@
 
 ## 运行开发服务器
 
-直接运行 `npm run dev` 即可
+1. 下载 nginx
+2. 复制 nginx 到 `dev_nginx`。_注意不要把 `conf/nginx.conf` 给覆盖了！！！_
+3. 启动 nginx。
+4. 运行 `npm run dev`
+5. 访问 `http://127.0.0.1:8080` 而不是 `http://127.0.0.1:3000`
 
 ## 开发进度
 

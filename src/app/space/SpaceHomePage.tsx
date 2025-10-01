@@ -2,7 +2,7 @@ import { UserHorizontalList } from '@/components/user/UserList';
 import { SmallWorkCard } from '@/components/work/WorkCard';
 import WorkList from '@/components/work/WorkList';
 import { SpaceIndex } from '@/interfaces/space';
-import { Button, Card, Typography, Skeleton } from '@douyinfe/semi-ui';
+import { Button, Card, Typography, Skeleton } from '@douyinfe/semi-ui-19';
 import { IconLikeHeart, IconEyeOpened, IconStar, IconCopy, IconBookmark, IconArrowRight } from '@douyinfe/semi-icons';
 import React from 'react';
 

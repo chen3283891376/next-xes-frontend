@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Avatar, Badge, Button, Card, Notification, Space, Tooltip } from '@douyinfe/semi-ui';
+import { Avatar, Badge, Button, Card, Notification, Space, Tooltip } from '@douyinfe/semi-ui-19';
 import { processEmojiReplace, processLinkReplace } from '@/utils';
 import DOMPurify from 'dompurify';
 

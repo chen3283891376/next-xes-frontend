@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { Pagination, Radio, RadioGroup } from '@douyinfe/semi-ui';
+import { Pagination, Radio, RadioGroup } from '@douyinfe/semi-ui-19';
 import WorkList from '@/components/work/WorkList';
 
 import type { WorkList as IWorkList } from '@/interfaces/work';

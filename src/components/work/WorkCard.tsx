@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { Card, Tag, Space, Typography, Tooltip, Divider } from '@douyinfe/semi-ui';
+import { Card, Tag, Space, Typography, Tooltip, Divider } from '@douyinfe/semi-ui-19';
 import { IconEyeOpened, IconLikeThumb, IconDislikeThumb, IconComment } from '@douyinfe/semi-icons';
 import { getWorkLink } from '@/utils';
 import { Work } from '@/interfaces/work';
 
 const WorkCard = ({ work }: { work: Work }) => {
     const link = getWorkLink(work);
-    const author_url = `/space/home?id=${work.user_id}`;
+    const author_url = `/space/${work.user_id}/home`;
 
     return (
         <Tooltip content={work.created_at} placement="bottom">

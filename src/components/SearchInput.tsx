@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AutoComplete, Empty } from '@douyinfe/semi-ui';
+import { AutoComplete, Empty } from '@douyinfe/semi-ui-19';
 import { IllustrationNoContent } from '@douyinfe/semi-illustrations';
 import { IconSearch } from '@douyinfe/semi-icons';
 import type { Associate_words } from '@/interfaces/common';

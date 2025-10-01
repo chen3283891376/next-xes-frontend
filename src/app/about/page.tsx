@@ -1,5 +1,5 @@
 'use client';
-import { Table, Typography } from '@douyinfe/semi-ui';
+import { Table, Typography } from '@douyinfe/semi-ui-19';
 import * as React from 'react';
 
 export default function AboutPage() {

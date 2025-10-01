@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { Button } from '@douyinfe/semi-ui';
+import { Button } from '@douyinfe/semi-ui-19';
 import { IconGithubLogo as GitHub } from '@douyinfe/semi-icons';
 
 export default function AppFooter() {

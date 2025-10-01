@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Typography } from '@douyinfe/semi-ui';
+import { Typography } from '@douyinfe/semi-ui-19';
 import { Work } from '@/interfaces/work';
 import WorkList from '@/components/work/WorkList';
 

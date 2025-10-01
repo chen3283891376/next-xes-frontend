@@ -1,6 +1,6 @@
 // 预计写project页面的时候会再增强一下（虽然看起来遥遥无期）
 import * as React from 'react';
-import { Button, Input, Notification } from '@douyinfe/semi-ui';
+import { Button, Input, Notification } from '@douyinfe/semi-ui-19';
 
 import type { ErrorResponse } from '@/interfaces/common';
 

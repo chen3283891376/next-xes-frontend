@@ -11,7 +11,7 @@
     },
     "dependencies": {
         "@douyinfe/semi-icons": "^2.86.0",
-        "@douyinfe/semi-ui": "^2.86.0",
+        "@douyinfe/semi-ui-19": "^2.87.0-alpha.8",
         "dompurify": "^3.2.7",
         "next": "15.5.2",
         "prettier": "^3.6.2",

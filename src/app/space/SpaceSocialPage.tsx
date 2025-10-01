@@ -1,7 +1,7 @@
 import { Pagination } from '@/components/common/Pagination';
 import { UserVerticalList } from '@/components/user/UserList';
 import { SpaceSocial } from '@/interfaces/space';
-import { Radio, RadioGroup } from '@douyinfe/semi-ui';
+import { Radio, RadioGroup } from '@douyinfe/semi-ui-19';
 import React from 'react';
 
 export const SpaceSocialPage = ({ userId }: { userId: string }) => {

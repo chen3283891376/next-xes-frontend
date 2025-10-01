@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Banner, Button, Card, Checkbox, Input, PinCode, Typography } from '@douyinfe/semi-ui';
+import { Banner, Button, Card, Checkbox, Input, PinCode, Typography } from '@douyinfe/semi-ui-19';
 import { IconLock, IconPhone } from '@douyinfe/semi-icons';
 import { checkLoggedIn } from '@/utils';
 import { CaptchaPacket, LoginPacket } from '@/interfaces/login';

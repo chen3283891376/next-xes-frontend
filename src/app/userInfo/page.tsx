@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Avatar, Typography, Table } from '@douyinfe/semi-ui';
+import { Avatar, Typography, Table } from '@douyinfe/semi-ui-19';
 
 import type { UserInfo } from '@/interfaces/user';
 import type { SpaceProfile } from '@/interfaces/space';

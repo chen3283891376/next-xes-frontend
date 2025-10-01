@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { Divider, Radio, RadioGroup, TabPane, Tabs, Typography } from '@douyinfe/semi-ui';
+import { Divider, Radio, RadioGroup, TabPane, Tabs, Typography } from '@douyinfe/semi-ui-19';
 import WorkList from '@/components/work/WorkList';
 import { Pagination } from '@/components/common/Pagination';
 import SearchInput from '@/components/SearchInput';

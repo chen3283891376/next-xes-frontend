@@ -1,12 +1,16 @@
 'use client';
 import React from 'react';
-import { Avatar, Button, Space, Tabs, Toast, Typography } from '@douyinfe/semi-ui';
+import { Avatar, Button, Divider, Layout, Nav, Space, Tabs, Toast, Typography } from '@douyinfe/semi-ui-19';
 import SpaceCoverPage from '../../SpaceCoverPage';
 import { SpaceProfile } from '@/interfaces/space';
 import { SpaceFavoritesPage } from '../../SpaceFavoritesPage';
 import { SpaceSocialPage } from '../../SpaceSocialPage';
 import { SpaceHomePage } from '../../SpaceHomePage';
 import { SpaceProjectsPage } from '../../SpaceProjectsPage';
+import { OnSelectedData } from '@douyinfe/semi-ui-19/lib/es/navigation';
+import { IconCode, IconFollowStroked, IconHeartStroked, IconHome, IconImage } from '@douyinfe/semi-icons';
+
+const navItems = ['home', 'cover', 'projects', 'favorites','social']
 
 interface PageParams {
     params: Promise<{
@@ -19,6 +23,7 @@ export default function SpaceTabPage({ params }: PageParams) {
     const { id, tab } = React.use(params);
     const [spaceProfile, setSpaceProfile] = React.useState<SpaceProfile['data']>();
     const [userFollowed, setUserFollowed] = React.useState(false);
+    const [currentTab, setCurrentTab] = React.useState(tab);
 
     React.useEffect(() => {
         const fetchSpaceProfile = async () => {
@@ -37,12 +42,12 @@ export default function SpaceTabPage({ params }: PageParams) {
             body: JSON.stringify({ followed_user_id: id, state: !userFollowed }),
         });
         setUserFollowed(!userFollowed);
-        Toast.success(userFollowed ? '关注成功' : '取消关注成功');
+        Toast.success(!userFollowed ? '关注成功' : '取消关注成功');
     };
 
     return (
         <div className="m-4 mt-2">
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex justify-between items-center">
                 <Space>
                     <Avatar size="extra-large" src={spaceProfile?.avatar_path} />
                     <div style={{ textAlign: 'left' }}>
@@ -62,37 +67,61 @@ export default function SpaceTabPage({ params }: PageParams) {
                         theme={userFollowed ? 'light' : 'solid'}
                         type={userFollowed ? undefined : 'secondary'}
                     >
-                        {spaceProfile?.is_follow ? '已关注' : '关注'}
+                        {userFollowed ? '已关注' : '关注'}
                     </Button>
                 )}
             </div>
+            <Divider />
 
-            <div className="mt-5 flex justify-center w-full">
-                <Tabs
-                    defaultActiveKey={tab}
-                    keepDOM={false}
-                    onChange={key => {
-                        history.pushState(null, '', `/space/${id}/${key}`);
-                    }}
-                    className="w-full flex flex-col items-center"
-                >
-                    <Tabs.TabPane tab="主页" itemKey="home">
-                        <SpaceHomePage userId={id} />
-                    </Tabs.TabPane>
-                    <Tabs.TabPane tab="封面" itemKey="cover">
-                        <SpaceCoverPage userId={id} />
-                    </Tabs.TabPane>
-                    <Tabs.TabPane tab="作品" itemKey="projects">
-                        <SpaceProjectsPage userId={id} />
-                    </Tabs.TabPane>
-                    <Tabs.TabPane tab="收藏" itemKey="favorites">
-                        <SpaceFavoritesPage userId={id} />
-                    </Tabs.TabPane>
-                    <Tabs.TabPane tab="社交" itemKey="social">
-                        <SpaceSocialPage userId={id} />
-                    </Tabs.TabPane>
-                </Tabs>
-            </div>
+            <Layout>
+                <Layout.Sider className="mt-2">
+                    <Nav
+                        defaultIsCollapsed
+                        selectedKeys={[navItems.indexOf(currentTab)]}
+                        onSelect={(data: OnSelectedData) => {
+                            history.pushState(null, '', `/space/${id}/${navItems[data.itemKey as number]}`);
+                            setCurrentTab(navItems[data.itemKey as number]);
+                        }}
+                        items={[
+                            {
+                                itemKey: 0,
+                                icon: <IconHome />,
+                                text: '主页',
+                            },
+                            {
+                                itemKey: 1,
+                                icon: <IconImage />,
+                                text: '封面',
+                            },
+                            {
+                                itemKey: 2,
+                                icon: <IconCode />,
+                                text: '作品',
+                            },
+                            {
+                                itemKey: 3,
+                                icon: <IconHeartStroked />,
+                                text: '收藏',
+                            },
+                            {
+                                itemKey: 4,
+                                icon: <IconFollowStroked />,
+                                text: '社交',
+                            },
+                        ]}
+                        footer={{
+                            collapseButton: true
+                        }}
+                    />
+                </Layout.Sider>
+                <Layout.Content className="m-2 mt-2">
+                    {currentTab === 'home' && <SpaceHomePage userId={id} />}
+                    {currentTab === 'cover' && <SpaceCoverPage userId={id} />}
+                    {currentTab === 'projects' && <SpaceProjectsPage userId={id} />}
+                    {currentTab === 'favorites' && <SpaceFavoritesPage userId={id} />}
+                    {currentTab ==='social' && <SpaceSocialPage userId={id} />}
+                </Layout.Content>
+            </Layout>
         </div>
     );
 }

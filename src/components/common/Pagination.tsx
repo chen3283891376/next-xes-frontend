@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Pagination } from '@douyinfe/semi-ui';
+import { Pagination } from '@douyinfe/semi-ui-19';
 
 const MyPagination = ({
     pageCount,

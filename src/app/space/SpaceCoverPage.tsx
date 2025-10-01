@@ -1,5 +1,5 @@
 import { SpaceCover } from '@/interfaces/space';
-import { Spin } from '@douyinfe/semi-ui';
+import { Spin } from '@douyinfe/semi-ui-19';
 import React from 'react';
 
 export default function SpaceCoverPage({ userId }: { userId: string }) {

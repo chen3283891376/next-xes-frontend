@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import type { FollowDataItem } from '@/interfaces/message';
-import { Avatar, Badge, Button, Card, Notification, Space } from '@douyinfe/semi-ui';
+import { Avatar, Badge, Button, Card, Notification, Space } from '@douyinfe/semi-ui-19';
 
 const FollowCard = ({
     message,

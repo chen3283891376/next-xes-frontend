@@ -1,7 +1,7 @@
 import { Pagination } from '@/components/common/Pagination';
 import WorkList from '@/components/work/WorkList';
 import { SpaceWorks } from '@/interfaces/space';
-import { RadioGroup, Radio } from '@douyinfe/semi-ui';
+import { RadioGroup, Radio } from '@douyinfe/semi-ui-19';
 import React from 'react';
 
 const SpaceProjectsPage = ({ userId }: { userId: string }) => {

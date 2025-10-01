@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Avatar, BackTop, Badge, Dropdown, IconButton, Nav, Typography } from '@douyinfe/semi-ui';
+import { Avatar, BackTop, Badge, Button, Dropdown, IconButton, Nav, Typography } from '@douyinfe/semi-ui-19';
 import Link from 'next/link';
 import SearchInput from '@/components/SearchInput';
 

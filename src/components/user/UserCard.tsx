@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Tooltip, Card, Typography, Button, Divider } from '@douyinfe/semi-ui';
+import { Avatar, Tooltip, Card, Typography, Button, Divider } from '@douyinfe/semi-ui-19';
 
 import type { SimpleUserInfo } from '@/interfaces/user';
 

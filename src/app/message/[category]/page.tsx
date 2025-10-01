@@ -1,13 +1,13 @@
 'use client';
 import * as React from 'react';
-import { Badge, Layout, Nav, Typography } from '@douyinfe/semi-ui';
+import { Badge, Layout, Nav, Typography } from '@douyinfe/semi-ui-19';
 import { IconCommentStroked, IconFollowStroked } from '@douyinfe/semi-icons';
 import CommentList from '@/components/message/CommentList';
 import FollowList from '@/components/message/FollowList';
 import { Pagination } from '@/components/common/Pagination';
 
 import type { MessageData } from '@/interfaces/message';
-import { OnSelectedData } from '@douyinfe/semi-ui/lib/es/navigation';
+import { OnSelectedData } from '@douyinfe/semi-ui-19/lib/es/navigation';
 
 interface PageParams {
     params: Promise<{

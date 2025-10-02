@@ -1,10 +1,12 @@
 'use client';
 import * as React from 'react';
-import { Divider, Radio, RadioGroup, TabPane, Tabs, Typography } from '@douyinfe/semi-ui-19';
+import { Divider, Layout, Nav, Radio, RadioGroup, Typography } from '@douyinfe/semi-ui-19';
 import WorkList from '@/components/work/WorkList';
 import { Pagination } from '@/components/common/Pagination';
 import SearchInput from '@/components/SearchInput';
 import { UserAndWorkList } from '@/components/user/UserAndWorkList';
+import { OnSelectedData } from '@douyinfe/semi-ui-19/lib/es/navigation';
+import { IconCode, IconListView, IconUser } from '@douyinfe/semi-icons';
 
 const SearchTabs = {
     AllTab: ({ keyword }: { keyword: string }) => {
@@ -215,6 +217,9 @@ const SearchTabs = {
     },
 };
 
+const { Sider, Content } = Layout;
+const tabs = ['all', 'users', 'projects']
+
 export default function SearchPage() {
     const [loaderData, setLoaderData] = React.useState<{
         keyword: string | null;
@@ -225,6 +230,7 @@ export default function SearchPage() {
         tab: null,
         isLoggedIn: false,
     });
+    const [currentTab, setCurrentTab] = React.useState<string>('all');
 
     React.useEffect(() => {
         const searchParams = new URLSearchParams(location.search);
@@ -232,6 +238,7 @@ export default function SearchPage() {
         const isLoggedIn = document.cookie.includes('is_login=1;') || false;
         const keyword = searchParams.get('keyword');
         const tab = searchParams.get('tab');
+        setCurrentTab(tab || 'all');
 
         setLoaderData({
             keyword: keyword || null,
@@ -245,33 +252,49 @@ export default function SearchPage() {
         return <Typography.Title heading={6}>获取关键字失败</Typography.Title>;
     }
 
-    const handleTabChange = (activeKey: string) => {
-        if (activeKey) {
-            window.scrollTo(0, 0);
-            history.pushState(null, '', `/search?keyword=${decodeURIComponent(keyword)}&tab=${activeKey}`);
-        }
-    };
-
     return (
-        <div className="mt-2 m-4 flex flex-col items-center">
-            <SearchInput keyword={keyword} />
-
-            <Tabs
-                defaultActiveKey={loaderData.tab || 'all'}
-                onChange={handleTabChange}
-                keepDOM={false}
-                className="flex flex-col items-center"
-            >
-                <TabPane tab="综合排序" itemKey="all">
-                    <SearchTabs.AllTab keyword={keyword} />
-                </TabPane>
-                <TabPane tab="作者" itemKey="users">
-                    <SearchTabs.AuthorTab keyword={keyword} />
-                </TabPane>
-                <TabPane tab="项目" itemKey="projects">
-                    <SearchTabs.ProjectsTab keyword={keyword} />
-                </TabPane>
-            </Tabs>
+        <div className="mt-2 m-4">
+            <div className='flex justify-center mb-2 w-full'>
+                <SearchInput keyword={keyword} />
+            </div>
+            <Divider />
+            <Layout>
+                <Sider>
+                    <Nav
+                        defaultIsCollapsed
+                        selectedKeys={[tabs.indexOf(currentTab)]}
+                        onSelect={(data: OnSelectedData) => {
+                            history.pushState(null, '', `/search?keyword=${decodeURIComponent(keyword)}&tab=${tabs[data.itemKey as number]}`);
+                            setCurrentTab(tabs[data.itemKey as number]);
+                        }}
+                        footer={{
+                            collapseButton: true,
+                        }}
+                        items={[
+                            {
+                                itemKey: 0,
+                                text: '综合排序',
+                                icon: <IconListView />,
+                            },
+                            {
+                                itemKey: 1,
+                                text: '作者',
+                                icon: <IconUser />,
+                            },
+                            {
+                                itemKey: 2,
+                                text: '项目',
+                                icon: <IconCode />,
+                            }
+                        ]}
+                    />
+                </Sider>
+                <Content>
+                    {currentTab === 'all' && <SearchTabs.AllTab keyword={keyword} />}
+                    {currentTab === 'users' && <SearchTabs.AuthorTab keyword={keyword} />}
+                    {currentTab === 'projects' && <SearchTabs.ProjectsTab keyword={keyword} />}
+                </Content>
+            </Layout>
         </div>
     );
 }

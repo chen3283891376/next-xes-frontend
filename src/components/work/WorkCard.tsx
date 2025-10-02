@@ -3,6 +3,7 @@ import { Card, Tag, Space, Typography, Tooltip, Divider } from '@douyinfe/semi-u
 import { IconEyeOpened, IconLikeThumb, IconDislikeThumb, IconComment } from '@douyinfe/semi-icons';
 import { getWorkLink } from '@/utils';
 import { Work } from '@/interfaces/work';
+import { v4 as uuidV4 } from 'uuid';
 
 const WorkCard = ({ work }: { work: Work }) => {
     const link = getWorkLink(work);
@@ -33,31 +34,32 @@ const WorkCard = ({ work }: { work: Work }) => {
                         alt={work.name}
                     />
                 }
-            >
-                <Space spacing="tight" wrap>
-                    <div className="flex justify-between w-full">
-                        <a href={author_url} target="_blank" style={{ maxWidth: '114px' }}>
-                            <Tag size="large" color="yellow" style={{ fontSize: '14px' }}>
-                                {work.username}
-                            </Tag>
-                        </a>
-                        <span style={{ fontSize: '12px' }}>
-                            <Tag color="cyan" size="small" shape="circle" prefixIcon={<IconEyeOpened />}>
-                                {work.views}
-                            </Tag>
-                            <Tag color="red" size="small" shape="circle" prefixIcon={<IconLikeThumb />}>
-                                {work.likes}
-                            </Tag>
-                            <Tag color="purple" size="small" shape="circle" prefixIcon={<IconDislikeThumb />}>
-                                {work.unlikes}
-                            </Tag>
-                            <Tag color="green" size="small" shape="circle" prefixIcon={<IconComment />}>
-                                {work.comments}
-                            </Tag>
-                        </span>
-                    </div>
-                </Space>
-            </Card>
+                actions={[
+                    <Space className={'w-full'} spacing="tight" wrap key={work.id}>
+                        <div className="flex justify-between w-full">
+                            <a href={author_url} target="_blank" style={{ maxWidth: '114px' }}>
+                                <Tag size="large" color="yellow" style={{ fontSize: '14px' }}>
+                                    {work.username}
+                                </Tag>
+                            </a>
+                            <span style={{ fontSize: '12px' }}>
+                                <Tag color="cyan" size="small" shape="circle" prefixIcon={<IconEyeOpened />}>
+                                    {work.views}
+                                </Tag>
+                                <Tag color="red" size="small" shape="circle" prefixIcon={<IconLikeThumb />}>
+                                    {work.likes}
+                                </Tag>
+                                <Tag color="purple" size="small" shape="circle" prefixIcon={<IconDislikeThumb />}>
+                                    {work.unlikes}
+                                </Tag>
+                                <Tag color="green" size="small" shape="circle" prefixIcon={<IconComment />}>
+                                    {work.comments}
+                                </Tag>
+                            </span>
+                        </div>
+                    </Space>,
+                ]}
+            />
         </Tooltip>
     );
 };
@@ -67,7 +69,7 @@ const SmallWorkCard = ({ work }: { work: Work }) => {
         <Tooltip placement="top" title={`👀${work.views} 👍${work.likes} 👎${work.unlikes} ${work.created_at}`}>
             <Card
                 actions={[
-                    <a href={getWorkLink(work)} target="_blank" rel="noopener noreferrer">
+                    <a key={uuidV4()} href={getWorkLink(work)} target="_blank" rel="noopener noreferrer">
                         <img className="mx-auto" src={work.thumbnail} alt={work.name} style={{ maxHeight: 138 }} />
                         <Divider />
                         <Typography.Text link={{ href: getWorkLink(work), target: '_blank' }} style={{ fontSize: 16 }}>

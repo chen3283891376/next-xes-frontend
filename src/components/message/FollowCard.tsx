@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import type { FollowDataItem } from '@/interfaces/message';
-import { Avatar, Badge, Button, Card, Notification, Space } from '@douyinfe/semi-ui-19';
+import { Avatar, Badge, Button, Card, Layout, Notification, Space } from '@douyinfe/semi-ui-19';
 
 const FollowCard = ({
     message,
@@ -45,52 +45,56 @@ const FollowCard = ({
     };
 
     return (
-        <>
-            <Card className={className}>
-                <div className="w-full flex justify-between items-center" onClick={needRead ? onClickRead : () => {}}>
-                    <Space align="center" spacing={2}>
-                        <Badge
-                            type="danger"
-                            style={{ display: !needRead ? 'none' : 'inline-block' }}
-                            position="leftTop"
-                            dot
-                        >
-                            <a href={userLink} target="_blank">
-                                <Avatar
-                                    alt={message.send_username}
-                                    src={message.send_user_avatar_path}
-                                    sx={{ width: 50, height: 50 }}
-                                />
-                            </a>
-                        </Badge>
-                        <div style={{ marginLeft: '10px', marginRight: '10px' }}>
-                            <a href={userLink} target="_blank" style={{ marginRight: '31px', fontSize: '18px' }}>
-                                {message.send_username}
-                            </a>
-                            <div style={{ fontSize: '14px' }}>{message.signature}</div>
-                            <div>
-                                <span
-                                    style={{
-                                        color: 'grey',
-                                        fontSize: '12px',
-                                        marginRight: '10px',
-                                    }}
-                                >
-                                    {message.created_at}
-                                </span>
+        <Card className={className}>
+            <div onClick={needRead ? onClickRead : undefined}>
+                <Layout>
+                    <Layout.Content>
+                        <Space align="center" spacing={2}>
+                            <Badge
+                                type="danger"
+                                style={{ display: !needRead ? 'none' : 'inline-block' }}
+                                position="leftTop"
+                                dot
+                            >
+                                <a href={userLink} target="_blank">
+                                    <Avatar
+                                        alt={message.send_username}
+                                        src={message.send_user_avatar_path}
+                                        sx={{ width: 50, height: 50 }}
+                                    />
+                                </a>
+                            </Badge>
+                            <div style={{ marginLeft: '10px', marginRight: '10px' }}>
+                                <a href={userLink} target="_blank" style={{ marginRight: '31px', fontSize: '18px' }}>
+                                    {message.send_username}
+                                </a>
+                                <div style={{ fontSize: '14px' }}>{message.signature}</div>
+                                <div>
+                                    <span
+                                        style={{
+                                            color: 'grey',
+                                            fontSize: '12px',
+                                            marginRight: '10px',
+                                        }}
+                                    >
+                                        {message.created_at}
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                    </Space>
-                    <Button
-                        theme={userFollowed ? 'light' : 'solid'}
-                        type={userFollowed ? undefined : 'secondary'}
-                        onClick={onClickFollow}
-                    >
-                        {userFollowed ? '已关注' : '关注'}
-                    </Button>
-                </div>
-            </Card>
-        </>
+                        </Space>
+                    </Layout.Content>
+                    <Layout.Sider>
+                        <Button
+                            theme={userFollowed ? 'light' : 'solid'}
+                            type={userFollowed ? undefined : 'secondary'}
+                            onClick={onClickFollow}
+                        >
+                            {userFollowed ? '已关注' : '关注'}
+                        </Button>
+                    </Layout.Sider>
+                </Layout>
+            </div>
+        </Card>
     );
 };
 

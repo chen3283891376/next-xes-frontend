@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Avatar, BackTop, Badge, Button, Dropdown, IconButton, Nav, Typography } from '@douyinfe/semi-ui-19';
+import { Avatar, BackTop, Badge, Button, Dropdown, IconButton, Nav, Popover, Switch, Typography } from '@douyinfe/semi-ui-19';
 import Link from 'next/link';
 import SearchInput from '@/components/SearchInput';
 
@@ -14,6 +14,7 @@ const AppNavbar = () => {
     const [userAvatar, setUserAvatar] = React.useState<string>('');
     const [messageData, setMessageData] = React.useState<MessageData | null>(null);
     const [totalMessageCount, setTotalMessageCount] = React.useState(0);
+    const [isNightMode, setIsNightMode] = React.useState(false);
 
     const logoutEvent = async () => {
         await fetch('/passport/logout');
@@ -21,7 +22,10 @@ const AppNavbar = () => {
     };
 
     React.useEffect(() => {
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
         setIsLoggedIn(document.cookie.includes('is_login=1;') || false);
+        setIsNightMode(!mediaQuery.matches || localStorage.getItem('isNightMode') === 'true');
         const fetchData = async () => {
             if (document.cookie.includes('is_login=1;')) {
                 const response = await fetch('/api/user/info');
@@ -38,6 +42,20 @@ const AppNavbar = () => {
 
         fetchData();
     }, []);
+    React.useEffect(() => {
+        localStorage.setItem('isNightMode', isNightMode ? 'true' : 'false');
+        const body = document.body;
+        if (body.hasAttribute('theme-mode')) {
+            body.removeAttribute('theme-mode');
+            body.style.background = '#ffffff';
+            body.style.color = '#171717';
+        } else {
+            body.setAttribute('theme-mode', 'dark');
+            body.style.background = '#0a0a0a';
+            body.style.color = '#ededed';
+        }
+    }, [isNightMode])
+
     return (
         <div style={{ width: '100%' }}>
             <Nav
@@ -123,6 +141,13 @@ const AppNavbar = () => {
                         >
                             创作
                         </Dropdown>
+
+                        <Popover content="切换模式">
+                            <Switch
+                                onChange={() => setIsNightMode(!isNightMode)}
+                                checked={!isNightMode}
+                            />
+                        </Popover>
                     </div>
                 }
                 header={{

@@ -1,6 +1,17 @@
 'use client';
 import React from 'react';
-import { Avatar, BackTop, Badge, Button, Dropdown, IconButton, Nav, Popover, Switch, Typography } from '@douyinfe/semi-ui-19';
+import {
+    Avatar,
+    BackTop,
+    Badge,
+    Button,
+    Dropdown,
+    IconButton,
+    Nav,
+    Popover,
+    Switch,
+    Typography,
+} from '@douyinfe/semi-ui-19';
 import Link from 'next/link';
 import SearchInput from '@/components/SearchInput';
 
@@ -54,7 +65,7 @@ const AppNavbar = () => {
             body.style.background = '#0a0a0a';
             body.style.color = '#ededed';
         }
-    }, [isNightMode])
+    }, [isNightMode]);
 
     return (
         <div style={{ width: '100%' }}>
@@ -143,10 +154,7 @@ const AppNavbar = () => {
                         </Dropdown>
 
                         <Popover content="切换模式">
-                            <Switch
-                                onChange={() => setIsNightMode(!isNightMode)}
-                                checked={!isNightMode}
-                            />
+                            <Switch onChange={() => setIsNightMode(!isNightMode)} checked={!isNightMode} />
                         </Popover>
                     </div>
                 }

@@ -10,7 +10,7 @@ import { SpaceProjectsPage } from '../../SpaceProjectsPage';
 import { OnSelectedData } from '@douyinfe/semi-ui-19/lib/es/navigation';
 import { IconCode, IconFollowStroked, IconHeartStroked, IconHome, IconImage } from '@douyinfe/semi-icons';
 
-const navItems = ['home', 'cover', 'projects', 'favorites','social']
+const navItems = ['home', 'cover', 'projects', 'favorites', 'social'];
 
 interface PageParams {
     params: Promise<{
@@ -110,7 +110,7 @@ export default function SpaceTabPage({ params }: PageParams) {
                             },
                         ]}
                         footer={{
-                            collapseButton: true
+                            collapseButton: true,
                         }}
                     />
                 </Layout.Sider>
@@ -119,7 +119,7 @@ export default function SpaceTabPage({ params }: PageParams) {
                     {currentTab === 'cover' && <SpaceCoverPage userId={id} />}
                     {currentTab === 'projects' && <SpaceProjectsPage userId={id} />}
                     {currentTab === 'favorites' && <SpaceFavoritesPage userId={id} />}
-                    {currentTab ==='social' && <SpaceSocialPage userId={id} />}
+                    {currentTab === 'social' && <SpaceSocialPage userId={id} />}
                 </Layout.Content>
             </Layout>
         </div>

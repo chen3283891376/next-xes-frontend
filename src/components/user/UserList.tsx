@@ -9,19 +9,7 @@ const UserVerticalList = ({ users }: { users: SimpleUserInfo[] }) => {
     ));
 
     return (
-        <div
-            className="flex flex-col gap-2"
-            ref={ref => {
-                if (ref) {
-                    const cardBody = ref.querySelectorAll('.semi-card-body');
-                    if (cardBody) {
-                        cardBody.forEach(item => {
-                            item.classList.add('w-full');
-                        });
-                    }
-                }
-            }}
-        >
+        <div className="flex flex-col gap-2">
             {cards}
         </div>
     );

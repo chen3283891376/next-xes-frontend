@@ -26,7 +26,7 @@ const HorizontalUserCard = ({
     };
 
     return (
-        <Card className={`${className} padding-10 flex`}>
+        <Card className={`${className} padding-10 flex`} bodyStyle={{ width: '100%' }}>
             <Layout>
                 <Layout.Content>
                     <Card.Meta

@@ -1,14 +1,16 @@
 'use client';
 import React from 'react';
-import { Avatar, Button, Divider, Layout, Nav, Space, Tabs, Toast, Typography } from '@douyinfe/semi-ui-19';
+import { Avatar, Button, Divider, Input, Layout, Nav, Space, Toast, Typography } from '@douyinfe/semi-ui-19';
 import SpaceCoverPage from '../../SpaceCoverPage';
-import { SpaceProfile } from '@/interfaces/space';
 import { SpaceFavoritesPage } from '../../SpaceFavoritesPage';
 import { SpaceSocialPage } from '../../SpaceSocialPage';
 import { SpaceHomePage } from '../../SpaceHomePage';
 import { SpaceProjectsPage } from '../../SpaceProjectsPage';
-import { OnSelectedData } from '@douyinfe/semi-ui-19/lib/es/navigation';
 import { IconCode, IconFollowStroked, IconHeartStroked, IconHome, IconImage } from '@douyinfe/semi-icons';
+
+import { SpaceProfile } from '@/interfaces/space';
+import { ErrorResponse } from '@/interfaces/common';
+import { OnSelectedData } from '@douyinfe/semi-ui-19/lib/es/navigation';
 
 const navItems = ['home', 'cover', 'projects', 'favorites', 'social'];
 
@@ -22,8 +24,13 @@ interface PageParams {
 export default function SpaceTabPage({ params }: PageParams) {
     const { id, tab } = React.use(params);
     const [spaceProfile, setSpaceProfile] = React.useState<SpaceProfile['data']>();
+    const [userSignature, setUserSignature] = React.useState('');
     const [userFollowed, setUserFollowed] = React.useState(false);
     const [currentTab, setCurrentTab] = React.useState(tab);
+
+    const [signatureInputValue, setSignatureInputValue] = React.useState('');
+    const [isChangingSignature, setIsChangingSignature] = React.useState(false);
+    const signatureInputRef = React.useRef<HTMLInputElement | null>(null);
 
     React.useEffect(() => {
         const fetchSpaceProfile = async () => {
@@ -31,9 +38,28 @@ export default function SpaceTabPage({ params }: PageParams) {
             const data: SpaceProfile = await response.json();
             setSpaceProfile(data.data);
             setUserFollowed(data.data.is_follow);
+            setUserSignature(data.data.signature)
         };
-        fetchSpaceProfile();
+        fetchSpaceProfile().catch(console.error);
     }, [id]);
+
+    const handleChangeSignature = async () => {
+        setIsChangingSignature(false);
+        setSignatureInputValue('');
+
+        const response = await fetch('/api/space/edit_signature', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ signature: signatureInputValue }),
+        });
+        if (response.ok) {
+            setUserSignature(signatureInputValue);
+            Toast.success('更改签名成功');
+        } else {
+            const responseData: ErrorResponse = await response.json();
+            Toast.error(responseData.message);
+        }
+    };
 
     const onClickFollow = async () => {
         await fetch('/api/space/follow', {
@@ -55,6 +81,43 @@ export default function SpaceTabPage({ params }: PageParams) {
                             {spaceProfile?.realname}
                             <Typography.Text type="secondary">({id})</Typography.Text>
                         </Typography.Title>
+                        {isChangingSignature ? (
+                            <Input
+                                value={signatureInputValue}
+                                onChange={(value) => setSignatureInputValue(value)}
+                                onKeyDown={e => {
+                                    if (e.key === 'Enter') {
+                                        handleChangeSignature().catch(console.error);
+                                    } else if (e.key === 'Escape') {
+                                        setIsChangingSignature(false);
+                                        setSignatureInputValue('');
+                                    }
+                                }}
+                                onBlur={() => {
+                                    handleChangeSignature().catch(console.error);
+                                }}
+                                ref={signatureInputRef}
+                                className={'mt-1 w-full'}
+                            />
+                        ) : (
+                            <div>
+                                <Typography.Text type={'secondary'}>{userSignature}</Typography.Text>
+                                {spaceProfile?.is_my && (
+                                    <Button
+                                        size="small"
+                                        onClick={() => {
+                                            setSignatureInputValue(userSignature);
+                                            setIsChangingSignature(true);
+                                            signatureInputRef.current?.focus();
+                                            signatureInputRef.current?.select();
+                                        }}
+                                        className={'ml-1'}
+                                    >
+                                        编辑签名
+                                    </Button>
+                                )}
+                            </div>
+                        )}
                         <Typography.Text type="primary" className="mt-1">
                             关注：{spaceProfile?.follows} &nbsp; 粉丝：{spaceProfile?.fans}
                         </Typography.Text>

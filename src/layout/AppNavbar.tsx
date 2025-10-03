@@ -36,7 +36,7 @@ const AppNavbar = () => {
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
         setIsLoggedIn(document.cookie.includes('is_login=1;') || false);
-        setIsNightMode(!mediaQuery.matches || localStorage.getItem('isNightMode') === 'true');
+        setIsNightMode(localStorage.getItem('isNightMode') === 'true' || mediaQuery.matches);
         const fetchData = async () => {
             if (document.cookie.includes('is_login=1;')) {
                 const response = await fetch('/api/user/info');
@@ -53,19 +53,24 @@ const AppNavbar = () => {
 
         fetchData();
     }, []);
+
     React.useEffect(() => {
         localStorage.setItem('isNightMode', isNightMode ? 'true' : 'false');
         const body = document.body;
-        if (body.hasAttribute('theme-mode')) {
-            body.removeAttribute('theme-mode');
-            body.style.background = '#ffffff';
-            body.style.color = '#171717';
-        } else {
+        if (isNightMode) {
             body.setAttribute('theme-mode', 'dark');
             body.style.background = '#0a0a0a';
             body.style.color = '#ededed';
+        } else {
+            body.removeAttribute('theme-mode');
+            body.style.background = '#ffffff';
+            body.style.color = '#171717';
         }
     }, [isNightMode]);
+
+    const toggleNightMode = () => {
+        setIsNightMode(!isNightMode);
+    };
 
     return (
         <div style={{ width: '100%' }}>
@@ -154,7 +159,7 @@ const AppNavbar = () => {
                         </Dropdown>
 
                         <Popover content="切换模式">
-                            <Switch onChange={() => setIsNightMode(!isNightMode)} checked={!isNightMode} />
+                            <Switch onChange={toggleNightMode} checked={isNightMode} />
                         </Popover>
                     </div>
                 }

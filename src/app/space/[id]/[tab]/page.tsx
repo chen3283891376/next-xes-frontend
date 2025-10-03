@@ -38,7 +38,7 @@ export default function SpaceTabPage({ params }: PageParams) {
             const data: SpaceProfile = await response.json();
             setSpaceProfile(data.data);
             setUserFollowed(data.data.is_follow);
-            setUserSignature(data.data.signature)
+            setUserSignature(data.data.signature);
         };
         fetchSpaceProfile().catch(console.error);
     }, [id]);
@@ -84,7 +84,7 @@ export default function SpaceTabPage({ params }: PageParams) {
                         {isChangingSignature ? (
                             <Input
                                 value={signatureInputValue}
-                                onChange={(value) => setSignatureInputValue(value)}
+                                onChange={value => setSignatureInputValue(value)}
                                 onKeyDown={e => {
                                     if (e.key === 'Enter') {
                                         handleChangeSignature().catch(console.error);

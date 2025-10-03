@@ -218,7 +218,7 @@ const SearchTabs = {
 };
 
 const { Sider, Content } = Layout;
-const tabs = ['all', 'users', 'projects']
+const tabs = ['all', 'users', 'projects'];
 
 export default function SearchPage() {
     const [loaderData, setLoaderData] = React.useState<{
@@ -254,7 +254,7 @@ export default function SearchPage() {
 
     return (
         <div className="mt-2 m-4">
-            <div className='flex justify-center mb-2 w-full'>
+            <div className="flex justify-center mb-2 w-full">
                 <SearchInput keyword={keyword} />
             </div>
             <Divider />
@@ -264,7 +264,11 @@ export default function SearchPage() {
                         defaultIsCollapsed
                         selectedKeys={[tabs.indexOf(currentTab)]}
                         onSelect={(data: OnSelectedData) => {
-                            history.pushState(null, '', `/search?keyword=${decodeURIComponent(keyword)}&tab=${tabs[data.itemKey as number]}`);
+                            history.pushState(
+                                null,
+                                '',
+                                `/search?keyword=${decodeURIComponent(keyword)}&tab=${tabs[data.itemKey as number]}`,
+                            );
                             setCurrentTab(tabs[data.itemKey as number]);
                         }}
                         footer={{
@@ -285,7 +289,7 @@ export default function SearchPage() {
                                 itemKey: 2,
                                 text: '项目',
                                 icon: <IconCode />,
-                            }
+                            },
                         ]}
                     />
                 </Sider>

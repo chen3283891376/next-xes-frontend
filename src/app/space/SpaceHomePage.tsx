@@ -6,7 +6,7 @@ import { Button, Card, Typography, Skeleton } from '@douyinfe/semi-ui-19';
 import { IconLikeHeart, IconEyeOpened, IconStar, IconCopy, IconBookmark, IconArrowRight } from '@douyinfe/semi-icons';
 import React from 'react';
 
-const SpaceHomePage = ({ userId }: { userId: string }) => {
+export default function SpaceHomePage({ userId }: { userId: string }) {
     const OverviewItemCard = ({
         title,
         value,
@@ -234,5 +234,3 @@ const SpaceHomePage = ({ userId }: { userId: string }) => {
 
     return <div className="mt-4 px-2 md:px-4 max-w-7xl mx-auto">{pageComponent}</div>;
 };
-
-export { SpaceHomePage };

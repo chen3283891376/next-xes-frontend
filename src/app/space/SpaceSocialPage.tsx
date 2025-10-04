@@ -4,7 +4,7 @@ import { SpaceSocial } from '@/interfaces/space';
 import { Radio, RadioGroup } from '@douyinfe/semi-ui-19';
 import React from 'react';
 
-export const SpaceSocialPage = ({ userId }: { userId: string }) => {
+export default function SpaceSocialPage({ userId }: { userId: string }) {
     const [pageComponent, setPageComponent] = React.useState<React.JSX.Element>(<h2>加载中...</h2>);
     const [currentTab, setCurrentTab] = React.useState('follows');
     const [currentPage, setCurrentPage] = React.useState(1);

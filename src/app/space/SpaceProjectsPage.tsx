@@ -4,7 +4,7 @@ import { SpaceWorks } from '@/interfaces/space';
 import { RadioGroup, Radio } from '@douyinfe/semi-ui-19';
 import React from 'react';
 
-const SpaceProjectsPage = ({ userId }: { userId: string }) => {
+export default function SpaceProjectsPage({ userId }: { userId: string }) {
     const [pageComponent, setPageComponent] = React.useState<React.JSX.Element>(<h2>加载中...</h2>);
     const [orderType, setOrderType] = React.useState('time');
     const [currentPage, setCurrentPage] = React.useState(1);
@@ -67,4 +67,3 @@ const SpaceProjectsPage = ({ userId }: { userId: string }) => {
         </div>
     );
 };
-export { SpaceProjectsPage };

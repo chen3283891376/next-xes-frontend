@@ -2,10 +2,10 @@
 import React from 'react';
 import { Avatar, Button, Divider, Input, Layout, Nav, Space, Toast, Typography } from '@douyinfe/semi-ui-19';
 import SpaceCoverPage from '../../SpaceCoverPage';
-import { SpaceFavoritesPage } from '../../SpaceFavoritesPage';
-import { SpaceSocialPage } from '../../SpaceSocialPage';
-import { SpaceHomePage } from '../../SpaceHomePage';
-import { SpaceProjectsPage } from '../../SpaceProjectsPage';
+import SpaceFavoritesPage from '../../SpaceFavoritesPage';
+import SpaceSocialPage from '../../SpaceSocialPage';
+import SpaceHomePage from '../../SpaceHomePage';
+import SpaceProjectsPage from '../../SpaceProjectsPage';
 import { IconCode, IconFollowStroked, IconHeartStroked, IconHome, IconImage } from '@douyinfe/semi-icons';
 
 import { SpaceProfile } from '@/interfaces/space';

@@ -3,7 +3,7 @@ import WorkList from '@/components/work/WorkList';
 import { SpaceWorks } from '@/interfaces/space';
 import React from 'react';
 
-export const SpaceFavoritesPage = ({ userId }: { userId: string }) => {
+export default function SpaceFavoritesPage({ userId }: { userId: string }) {
     const [pageComponent, setPageComponent] = React.useState<React.JSX.Element>(<h2>加载中...</h2>);
     const [currentPage, setCurrentPage] = React.useState(1);
 

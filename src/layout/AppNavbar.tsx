@@ -27,6 +27,11 @@ const AppNavbar = () => {
     const [totalMessageCount, setTotalMessageCount] = React.useState(0);
     const [isNightMode, setIsNightMode] = React.useState(false);
 
+    let isShowNavbar = true;
+    if (location.pathname.includes('/embed')) {
+        isShowNavbar = false;
+    }
+
     const logoutEvent = async () => {
         await fetch('/passport/logout');
         location.reload();
@@ -37,6 +42,7 @@ const AppNavbar = () => {
 
         setIsLoggedIn(document.cookie.includes('is_login=1;') || false);
         setIsNightMode(localStorage.getItem('isNightMode') === 'true' || mediaQuery.matches);
+
         const fetchData = async () => {
             if (document.cookie.includes('is_login=1;')) {
                 const response = await fetch('/api/user/info');
@@ -73,7 +79,11 @@ const AppNavbar = () => {
     };
 
     return (
-        <div style={{ width: '100%' }}>
+        <div style={{ 
+            width: '100%', 
+            display: isShowNavbar ? 'block' : 'none', 
+            marginBottom: isShowNavbar ? '16px' : '0', 
+        }}>
             <Nav
                 mode="horizontal"
                 renderWrapper={({ itemElement, isSubNav, isInSubNav, props }) => {

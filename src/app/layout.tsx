@@ -27,7 +27,7 @@ export default function RootLayout({
         <html lang="zh-CN">
             <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
                 <AppNavbar />
-                <div className="mt-5 mb-5 flex-1">{children}</div>
+                <div className="flex-1">{children}</div>
                 <AppFooter />
             </body>
         </html>

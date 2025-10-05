@@ -5,7 +5,7 @@ import { IconClear, IconPlayCircle, IconStop } from '@douyinfe/semi-icons';
 import '../styles/ide.css';
 import { b64_to_utf8 } from '@/utils';
 
-import { Terminal } from '@xterm/xterm';
+import { ITerminalAddon, Terminal } from '@xterm/xterm';
 import { FitAddon } from '@xterm/addon-fit';
 import { CanvasAddon } from '@xterm/addon-canvas';
 import { WebglAddon } from '@xterm/addon-webgl';
@@ -59,7 +59,7 @@ export function WSTerminal({
             cursorStyle: 'bar',
         })
     );
-    const addons = React.useRef<any[]>([]);
+    const addons = React.useRef<ITerminalAddon[]>([]);
 
     const onClickRun = async () => {
         if (runningState && websocket.current) {
@@ -195,9 +195,9 @@ export function WSTerminal({
                                 term.loadAddon(addon);
                             }
                             term.open(terminalRef);
-                            addons.current[0].fit();
+                            (addons.current[0] as FitAddon).fit();
                             window.addEventListener('resize', () => {
-                                addons.current[0].fit();
+                                (addons.current[0] as FitAddon).fit();
                             });
                         }
                     }

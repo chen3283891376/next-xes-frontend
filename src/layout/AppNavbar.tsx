@@ -82,7 +82,7 @@ const AppNavbar = () => {
         <div style={{ 
             width: '100%', 
             display: isShowNavbar ? 'block' : 'none', 
-            marginBottom: isShowNavbar ? '16px' : '0', 
+            marginBottom: '16px'
         }}>
             <Nav
                 mode="horizontal"

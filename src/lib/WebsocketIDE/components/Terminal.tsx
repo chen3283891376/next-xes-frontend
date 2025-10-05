@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Button } from '@douyinfe/semi-ui-19';
 import { IconClear, IconPlayCircle, IconStop } from '@douyinfe/semi-icons';
 import '../styles/ide.css';
-import { b64_to_utf8 } from '@/utils';
+import { Base64 } from 'js-base64';
 
 import { ITerminalAddon, Terminal } from '@xterm/xterm';
 import { FitAddon } from '@xterm/addon-fit';
@@ -112,18 +112,18 @@ export function WSTerminal({
 
         ws.onmessage = event => {
             const eventId: string = event.data[0];
-            const eventData: string = event.data.slice(1);
+            const eventData: string = event.data.toString('utf-8');
             switch (eventId) {
                 case '1':
-                    term.write(b64_to_utf8(eventData));
+                    term.write(Buffer.from(Base64.toUint8Array(eventData.substring(1))))
                     return;
                 case '2':
                     return;
                 case '3':
                     return;
                 case '7':
-                    const outputData = JSON.parse(b64_to_utf8(eventData));
-                    if (outputData.Type === 'compileSuccess') term.write('\x1b[32m' + outputData.Info + '\x1b[0m');
+                    const outputData = JSON.parse(Base64.decode(eventData.substring(1)));
+                    if (outputData.Type === 'compileSuccess') term.write('\x1b[32m' + outputData.Info + '\x1b[0m \r\n');
                     else if (outputData.Type === 'compileFail') term.write('\x1b[31m' + outputData.Info + '\x1b[0m');
                     else if (outputData.Type === 'compile') term.write('\x1b[31m' + outputData.OutRaw + '\x1b[0m');
                     else if (outputData.Type === 'runInfo') {

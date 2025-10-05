@@ -13,7 +13,7 @@ export default function AppFooter() {
             className="flex justify-between bg-neutral-700 px-4 py-1 text-white"
             style={{
                 display: isShowFooter ? 'flex' : 'none',
-                marginTop: isShowFooter ? '16px' : 0,
+                marginTop: '16px',
             }}
         >
             <div className="flex items-center">

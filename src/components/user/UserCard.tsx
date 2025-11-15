@@ -75,20 +75,22 @@ const SmallUserCard = ({ user }: { user: SimpleUserInfo }) => {
 
     return (
         <Tooltip content={`粉丝：${user.fans} 关注：${user.follows}`}>
-            <Card>
-                <Card.Meta
-                    avatar={<Avatar size="small" src={user.avatar_path} alt={user.realname} />}
-                    title={
-                        <Typography.Text
-                            link
-                            style={{ fontSize: '20px' }}
-                            onClick={() => window.open(userLink, '_blank')}
-                        >
-                            {user.realname}
-                        </Typography.Text>
-                    }
-                />
-            </Card>
+            <span>
+                <Card>
+                    <Card.Meta
+                        avatar={<Avatar size="small" src={user.avatar_path} alt={user.realname} />}
+                        title={
+                            <Typography.Text
+                                link
+                                style={{ fontSize: '20px' }}
+                                onClick={() => window.open(userLink, '_blank')}
+                            >
+                                {user.realname}
+                            </Typography.Text>
+                        }
+                    />
+                </Card>
+            </span>
         </Tooltip>
     );
 };

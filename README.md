@@ -34,7 +34,7 @@
 ### 功能部分
 
 - [x] 主页 /
-- [ ] 登录 /login
+- [x] 登录 /login
 - [x] 发现 /discover
 - [x] 搜索 /search
 - [ ] 我的作品 /user
@@ -49,10 +49,10 @@
     - [x] 收藏 /space/:userId/favourites
     - [x] 社交 /space/:userId/social
 
-- [ ] 消息中心
-    - [ ] 评论与回复 /message/1
+- [x] 消息中心
+    - [x] 评论与回复 /message/1
     - [ ] 点赞与收藏 不计划制作
-    - [ ] 关注 /message/5
+    - [x] 关注 /message/5
     - [ ] 反馈与审核 不计划制作
     - [ ] 系统消息 不计划制作
 

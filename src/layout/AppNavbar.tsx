@@ -6,10 +6,10 @@ import {
     Badge,
     Button,
     Dropdown,
-    IconButton,
     Nav,
-    Popover,
     Switch,
+    Toast,
+    Tooltip,
     Typography,
 } from '@douyinfe/semi-ui-19';
 import Link from 'next/link';
@@ -128,10 +128,11 @@ const AppNavbar = () => {
                                         </Dropdown.Menu>
                                     }
                                 >
-                                    {/* <Badge count={totalMessageCount}>
-                                        <IconBellStroked className='mt-1' />
-                                    </Badge> */}
-                                    <IconBellStroked className="mt-1" />
+                                    <span>
+                                        <Badge count={totalMessageCount}>
+                                            <IconBellStroked className='mt-1 mr-1' />
+                                        </Badge>
+                                    </span>
                                 </Dropdown>
 
                                 <Dropdown
@@ -151,8 +152,9 @@ const AppNavbar = () => {
                                         </Dropdown.Menu>
                                     }
                                 >
-                                    {/* <Avatar size="small" border src={userAvatar} /> */}
-                                    用户
+                                    <span>
+                                        <Avatar size="small" border src={userAvatar} />
+                                    </span>
                                 </Dropdown>
                             </div>
                         )}
@@ -168,9 +170,11 @@ const AppNavbar = () => {
                             创作
                         </Dropdown>
 
-                        <Popover content="切换模式">
-                            <Switch onChange={toggleNightMode} checked={isNightMode} />
-                        </Popover>
+                        <Tooltip content="切换模式" position='bottom'>
+                            <span>
+                                <Switch onChange={toggleNightMode} checked={isNightMode} />
+                            </span>
+                        </Tooltip>
                     </div>
                 }
                 header={{

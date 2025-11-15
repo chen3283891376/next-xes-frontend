@@ -73,7 +73,6 @@ const CommentCard = ({
                                 <div
                                     style={{
                                         display: 'inline',
-                                        color: 'black',
                                         textDecoration: 'none',
                                         fontSize: '15px',
                                     }}
@@ -92,7 +91,6 @@ const CommentCard = ({
                     <div
                         style={{
                             display: 'block',
-                            color: 'black',
                             textDecoration: 'none',
                             paddingBottom: '5px',
                         }}
@@ -145,7 +143,7 @@ const CommentCard = ({
                         </Button>
                     </div>
                 </div>
-                <Tooltip title={message.topic.text}>
+                <Tooltip content={message.topic.text}>
                     <a className="ms-auto" href={message.topic.link} style={{ alignSelf: 'flex-start' }}>
                         <img
                             src={message.topic.thumbnail}

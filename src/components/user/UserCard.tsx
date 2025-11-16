@@ -16,13 +16,18 @@ const HorizontalUserCard = ({
     const userLink = `/space/${user.id}/home`;
 
     const onClickFollow = async () => {
-        await fetch('/api/space/follow', {
+        const response = await fetch('/api/space/follow', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ followed_user_id: user.user_id, state: !userFollowed }),
         });
+        if (!response.ok) {
+            const error = await response.json();
+            Toast.error({ content: error.message, duration: 1.5 });
+            return;
+        }
         setUserFollowed(!userFollowed);
-        Toast.success(userFollowed ? '取消关注成功' : '关注成功');
+        Toast.success({ content: userFollowed ? '取消关注成功' : '关注成功', duration: 1.5 })
     };
 
     return (
@@ -52,7 +57,7 @@ const HorizontalUserCard = ({
                 </Layout.Content>
                 <Layout.Sider>
                     <Button
-                        onClick={() => onClickFollow()}
+                        onClick={() => onClickFollow().catch(console.error)}
                         theme={userFollowed ? 'light' : 'solid'}
                         type={userFollowed ? undefined : 'secondary'}
                     >

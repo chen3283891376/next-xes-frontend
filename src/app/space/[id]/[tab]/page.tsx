@@ -62,11 +62,15 @@ export default function SpaceTabPage({ params }: PageParams) {
     };
 
     const onClickFollow = async () => {
-        await fetch('/api/space/follow', {
+        const response = await fetch('/api/space/follow', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ followed_user_id: id, state: !userFollowed }),
         });
+        if (!response.ok) {
+            const responseData: ErrorResponse = await response.json();
+            Toast.error(responseData.message);
+        }
         setUserFollowed(!userFollowed);
         Toast.success(!userFollowed ? '关注成功' : '取消关注成功');
     };
@@ -126,7 +130,7 @@ export default function SpaceTabPage({ params }: PageParams) {
                 {!spaceProfile?.is_my && (
                     <Button
                         size="large"
-                        onClick={onClickFollow}
+                        onClick={() => onClickFollow().catch(console.error)}
                         theme={userFollowed ? 'light' : 'solid'}
                         type={userFollowed ? undefined : 'secondary'}
                     >

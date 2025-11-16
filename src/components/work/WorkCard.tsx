@@ -10,7 +10,7 @@ const WorkCard = ({ work }: { work: Work }) => {
     const author_url = `/space/${work.user_id}/home`;
 
     return (
-        <Tooltip content={work.created_at} position='bottom'>
+        <Tooltip content={work.created_at || work.published_at} position='bottom'>
             <span>
                 <Card
                     title={

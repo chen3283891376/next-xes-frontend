@@ -2,14 +2,24 @@ import * as React from 'react';
 import { Work } from '@/interfaces/work';
 import WorkCard from './WorkCard';
 
-const WorkList = ({ works, className = '' }: { works: Work[]; className?: string }) => {
+const WorkList = ({
+    works,
+    className = '',
+    enableRemoved = true,
+    WorkCardInterface = WorkCard,
+}: {
+    works: Work[];
+    className?: string;
+    enableRemoved?: boolean;
+    WorkCardInterface?: ({ work }: { work: Work }) => React.JSX.Element | null;
+}) => {
     const cards = works.map((work: Work) => {
         if (work === null) {
             return null;
-        } else if (work.removed) {
+        } else if (work.removed && enableRemoved) {
             return null;
         } else {
-            return <WorkCard key={work.id} work={work} />;
+            return <WorkCardInterface key={work.id} work={work} />;
         }
     });
 

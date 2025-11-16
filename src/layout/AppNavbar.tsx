@@ -25,10 +25,7 @@ const AppNavbar = () => {
     const [totalMessageCount, setTotalMessageCount] = React.useState(0);
     const [isNightMode, setIsNightMode] = React.useState(false);
 
-    let isShowNavbar = true;
-    if (location.pathname.includes('/embed')) {
-        isShowNavbar = false;
-    }
+    const [isShowNavbar, setIsShowNavbar] = React.useState(true);
 
     const logoutEvent = async () => {
         await fetch('/passport/logout');
@@ -40,6 +37,8 @@ const AppNavbar = () => {
 
         setIsLoggedIn(document.cookie.includes('is_login=1;') || false);
         setIsNightMode(localStorage.getItem('isNightMode') === 'true' || mediaQuery.matches);
+
+        if (location.pathname.includes('/embed')) setIsShowNavbar(false);
 
         const fetchData = async () => {
             if (document.cookie.includes('is_login=1;')) {
@@ -140,11 +139,14 @@ const AppNavbar = () => {
                                                 <Link href={`/space/${userInfo?.id}/home`}>个人空间</Link>
                                             </Dropdown.Item>
                                             <Dropdown.Item>
+                                                <Link href="/user">作品管理</Link>
+                                            </Dropdown.Item>
+                                            <Dropdown.Divider />
+                                            <Dropdown.Item>
                                                 <Link href="/userInfo">个人信息</Link>
                                             </Dropdown.Item>
                                             <Dropdown.Divider />
                                             <Dropdown.Item onClick={logoutEvent}>
-                                                {/* <Link href="/logout">退出登录</Link> */}
                                                 退出登录
                                             </Dropdown.Item>
                                         </Dropdown.Menu>

@@ -9,7 +9,7 @@ export default function AppFooter() {
         isShowFooter = false;
     }
     return (
-        <div 
+        <div
             className="flex justify-between bg-neutral-700 px-4 py-1 text-white"
             style={{
                 display: isShowFooter ? 'flex' : 'none',

@@ -34,15 +34,7 @@ const xtermTheme = {
     brightWhite: '#FFFFFF',
 };
 
-export function WSTerminal({
-    code,
-    lang,
-    className,
-}: {
-    code: string;
-    lang: string;
-    className?: string;
-}) {
+export function WSTerminal({ code, lang, className }: { code: string; lang: string; className?: string }) {
     const [runningState, setRunningState] = React.useState<boolean>(false);
     const websocket = React.useRef<WebSocket | null>(null);
     const terminal = React.useRef(
@@ -57,7 +49,7 @@ export function WSTerminal({
             allowProposedApi: true,
             allowTransparency: true,
             cursorStyle: 'bar',
-        })
+        }),
     );
     const addons = React.useRef<ITerminalAddon[]>([]);
 
@@ -115,7 +107,7 @@ export function WSTerminal({
             const eventData: string = event.data.toString('utf-8');
             switch (eventId) {
                 case '1':
-                    term.write(Buffer.from(Base64.toUint8Array(eventData.substring(1))))
+                    term.write(Buffer.from(Base64.toUint8Array(eventData.substring(1))));
                     return;
                 case '2':
                     return;
@@ -179,7 +171,7 @@ export function WSTerminal({
                     </Button>
                 </div>
             </div>
-            <div 
+            <div
                 ref={terminalRef => {
                     if (terminalRef) {
                         if (!terminal.current.element) {
@@ -202,7 +194,7 @@ export function WSTerminal({
                         }
                     }
                 }}
-                className="flex-1" 
+                className="flex-1"
             />
         </div>
     );

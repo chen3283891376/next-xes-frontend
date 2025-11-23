@@ -66,4 +66,4 @@ export default function SpaceProjectsPage({ userId }: { userId: string }) {
             {pageComponent}
         </div>
     );
-};
+}

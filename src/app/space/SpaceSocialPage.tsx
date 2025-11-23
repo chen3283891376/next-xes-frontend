@@ -65,4 +65,4 @@ export default function SpaceSocialPage({ userId }: { userId: string }) {
             {pageComponent}
         </div>
     );
-};
+}

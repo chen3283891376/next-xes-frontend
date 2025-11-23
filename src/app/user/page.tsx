@@ -1,7 +1,15 @@
 'use client';
-import * as React from'react';
+import * as React from 'react';
 import { Button, Card, Space, Tabs, Tag, Toast, Tooltip, Typography } from '@douyinfe/semi-ui-19';
-import { IconEyeOpened, IconLikeThumb, IconDislikeThumb, IconComment, IconEdit, IconShareStroked, IconPause } from '@douyinfe/semi-icons';
+import {
+    IconEyeOpened,
+    IconLikeThumb,
+    IconDislikeThumb,
+    IconComment,
+    IconEdit,
+    IconShareStroked,
+    IconPause,
+} from '@douyinfe/semi-icons';
 import { Pagination } from '@/components/common/Pagination';
 import WorkList from '@/components/work/WorkList';
 
@@ -14,7 +22,7 @@ const FixedWorkCard = (
     onClickPublish: (work: PublishWorkInfo) => void,
     onClickCancelPublish: (work: PublishWorkInfo) => Promise<void>,
 ) => {
-    return ({ work }: { work: Work; }) => {
+    return ({ work }: { work: Work }) => {
         const publishedText = { 0: '未发布', 1: '已发布', 2: '审核中', removed: '已下架' };
         const [isShowOperators, setIsShowOperators] = React.useState(false);
         let link = getWorkLink(work);
@@ -35,11 +43,8 @@ const FixedWorkCard = (
         };
 
         return (
-            <Tooltip content={work.created_at} position='bottom'>
-                <div
-                    onMouseEnter={() => setIsShowOperators(true)}
-                    onMouseLeave={() => setIsShowOperators(false)}
-                >
+            <Tooltip content={work.created_at} position="bottom">
+                <div onMouseEnter={() => setIsShowOperators(true)} onMouseLeave={() => setIsShowOperators(false)}>
                     <Card
                         title={
                             <Typography.Title
@@ -51,7 +56,7 @@ const FixedWorkCard = (
                             </Typography.Title>
                         }
                         cover={
-                            <div className='relative'>
+                            <div className="relative">
                                 <img
                                     className="mx-auto"
                                     style={{ width: '224px', height: '168px', cursor: 'pointer' }}
@@ -71,8 +76,8 @@ const FixedWorkCard = (
                                         size="small"
                                         icon={<IconEdit />}
                                         onClick={() => window.open(editLink, '_blank')}
-                                        type='primary'
-                                        theme='solid'
+                                        type="primary"
+                                        theme="solid"
                                         sx={{ minWidth: 'auto', padding: '4px 8px' }}
                                     >
                                         编辑
@@ -86,8 +91,8 @@ const FixedWorkCard = (
                                                 workData.created_source = 'original';
                                                 onClickPublish(workData);
                                             }}
-                                            type='secondary'
-                                            theme='solid'
+                                            type="secondary"
+                                            theme="solid"
                                             sx={{ minWidth: 'auto', padding: '4px 8px' }}
                                         >
                                             发布
@@ -101,8 +106,8 @@ const FixedWorkCard = (
                                                 let workData = work as unknown as PublishWorkInfo;
                                                 onClickCancelPublish(workData);
                                             }}
-                                            type='danger'
-                                            theme='solid'
+                                            type="danger"
+                                            theme="solid"
                                             sx={{ minWidth: 'auto', padding: '4px 8px' }}
                                         >
                                             取消发布
@@ -114,11 +119,11 @@ const FixedWorkCard = (
                         actions={[
                             <Space className={'w-full'} spacing="tight" wrap key={work.id}>
                                 <div className="flex justify-between w-full">
-                                    <Tag 
+                                    <Tag
                                         color={statusColors[workStatus as keyof typeof statusColors] as any}
-                                        size="small" 
-                                        shape='circle'
-                                        className='shrink-0'
+                                        size="small"
+                                        shape="circle"
+                                        className="shrink-0"
                                     >
                                         {workStatus}
                                     </Tag>
@@ -130,7 +135,12 @@ const FixedWorkCard = (
                                         <Tag color="red" size="small" shape="circle" prefixIcon={<IconLikeThumb />}>
                                             {work.likes}
                                         </Tag>
-                                        <Tag color="purple" size="small" shape="circle" prefixIcon={<IconDislikeThumb />}>
+                                        <Tag
+                                            color="purple"
+                                            size="small"
+                                            shape="circle"
+                                            prefixIcon={<IconDislikeThumb />}
+                                        >
                                             {work.unlikes}
                                         </Tag>
                                         <Tag color="green" size="small" shape="circle" prefixIcon={<IconComment />}>
@@ -144,8 +154,8 @@ const FixedWorkCard = (
                 </div>
             </Tooltip>
         );
-    }
-}
+    };
+};
 
 export default function UserPage() {
     const [type, setType] = React.useState('normal');
@@ -153,106 +163,121 @@ export default function UserPage() {
     const [status, setStatus] = React.useState('all');
     const [currentPage, setCurrentPage] = React.useState(1);
     const [pageComponent, setPageComponent] = React.useState<React.ReactNode>(
-        <Typography.Title heading={5}>Loading...</Typography.Title>
+        <Typography.Title heading={5}>Loading...</Typography.Title>,
     );
     const [showPublishModal, setShowPublishModal] = React.useState(false);
     const publishWork = React.useRef<PublishWorkInfo>(null);
-    
-    React.useEffect(() => {
-        let ignore = false;
-        const func = async () => {
-            try {
-                const response = await fetch(
-                    `/api/${lang}/my?type=${type}&published=${status}&page=${currentPage}&per_page=20`,
-                );
 
-                if (!response.ok) {
-                    throw new Error('Failed to fetch data');
-                }
+    const [reloadFlag, setReloadFlag] = React.useState(0);
 
-                const responseData: UserWorkList = await response.json();
+    const fetchData = React.useCallback(async () => {
+        try {
+            const response = await fetch(
+                `/api/${lang}/my?type=${type}&published=${status}&page=${currentPage}&per_page=20`,
+            );
 
-                if (responseData.data.total === 0) {
-                    setPageComponent(
-                        <Typography.Title heading={5} className='py-4 text-center'>
-                            暂时没有作品，快去创作吧
-                        </Typography.Title>,
-                    );
-                    return;
-                }
+            if (!response.ok) {
+                if (currentPage > 1) setCurrentPage(prev => prev - 1)
+                throw new Error('Failed to fetch data');
+            }
 
+            const responseData: UserWorkList = await response.json();
+
+            if (responseData.data.total === 0) {
                 setPageComponent(
-                    <>
-                        <WorkList
-                            works={responseData.data.data}
-                            enableRemoved={false}
-                            WorkCardInterface={FixedWorkCard(
-                                (work: PublishWorkInfo) => {
-                                    publishWork.current = work;
-                                    setShowPublishModal(true);
-                                },
-                                async (work: PublishWorkInfo) => {
-                                    try {
-                                        const response = await fetch(`/api/${lang}/${work.id}/cancel_publish`, {
-                                            method: 'POST',
-                                            headers: { 'Content-Type': 'application/json' },
-                                            body: JSON.stringify({
-                                                params: {
-                                                    id: work.id,
-                                                },
-                                            }),
-                                        });
-                                        if (!response.ok) {
-                                            const error: ErrorResponse = await response.json();
-                                            Toast.error(error.message);
-                                            return;
-                                        }
-                                        Toast.success('取消发布成功');
-                                        setLang(work.lang);
-                                    } catch (error) {
-                                        Toast.error('取消发布失败，请重试');
-                                    }
-                                },
-                            )}
-                        />
-                        {responseData.data.total > 20 && (
-                            <div style={{ display: 'flex', justifyContent: 'center', marginTop: 3 }}>
-                                <Pagination
-                                    pageCount={Math.ceil(responseData.data.total / 20)}
-                                    value={currentPage}
-                                    handlePageChange={value => setCurrentPage(value)}
-                                />
-                            </div>
-                        )}
-                    </>,
-                );
-            } catch (error) {
-                setPageComponent(
-                    <Typography.Title heading={5} className='py-4 text-center'>
-                        加载失败，请刷新页面重试
+                    <Typography.Title heading={5} className="py-4 text-center">
+                        暂时没有作品，快去创作吧
                     </Typography.Title>,
                 );
+                return;
+            }
+
+            setPageComponent(
+                <>
+                    <WorkList
+                        works={responseData.data.data}
+                        enableRemoved={false}
+                        WorkCardInterface={FixedWorkCard(
+                            (work: PublishWorkInfo) => {
+                                publishWork.current = work;
+                                setShowPublishModal(true);
+                            },
+                            async (work: PublishWorkInfo) => {
+                                try {
+                                    const response = await fetch(`/api/${lang}/${work.id}/cancel_publish`, {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({
+                                            params: {
+                                                id: work.id,
+                                            },
+                                        }),
+                                    });
+                                    if (!response.ok) {
+                                        const error: ErrorResponse = await response.json();
+                                        Toast.error(error.message);
+                                        return;
+                                    }
+                                    Toast.success('取消发布成功');
+                                    setReloadFlag(prev => prev + 1);
+                                } catch (error) {
+                                    Toast.error('取消发布失败，请重试');
+                                }
+                            },
+                        )}
+                    />
+                    {responseData.data.total > 20 && (
+                        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 3 }}>
+                            <Pagination
+                                pageCount={Math.ceil(responseData.data.total / 20)}
+                                value={currentPage}
+                                handlePageChange={value => setCurrentPage(value)}
+                            />
+                        </div>
+                    )}
+                </>,
+            );
+        } catch (error) {
+            setPageComponent(
+                <Typography.Title heading={5} className="py-4 text-center">
+                    加载失败，请刷新页面重试
+                </Typography.Title>,
+            );
+        }
+    }, [type, lang, status, currentPage]);
+    React.useEffect(() => {
+        let ignore = false;
+        
+        const func = async () => {
+            if (!ignore) {
+                await fetchData();
             }
         };
-
-        if (!ignore) func();
+        func();
+        
         return () => {
             ignore = true;
         };
-    }, [type, lang, status, currentPage]);
+    }, [fetchData, reloadFlag]);
 
     return (
         <div className="mt-2 m-4">
+            {/* TODO: 发布作品弹窗 */}
+            {/* {showPublishModal && publishWork.current && (
+                <ProjectPublishModal
+                    workInfo={publishWork.current}
+                    isShow={showPublishModal}
+                    setIsShow={setShowPublishModal}
+                />
+            )} */}
             <Card className="mb-4">
-                <Tabs 
+                <Tabs
                     tabList={[
-                        { tab: "个人创作", itemKey: "normal" },
+                        { tab: '个人创作', itemKey: 'normal' },
                         {
-                            tab: <Tooltip content="（隋唐练习）">
-                                    随堂练习
-                                </Tooltip>,
-                            itemKey: "homework"
-                        }
+                            tab: <Tooltip content="（隋唐练习）">随堂练习</Tooltip>,
+                            itemKey: 'homework',
+                        },
                     ]}
                     onChange={(itemKey: string) => {
                         setType(itemKey);
@@ -264,17 +289,17 @@ export default function UserPage() {
                     <span>类型</span>
 
                     <Tabs
-                        type='slash'
-                        className='mt-3'
+                        type="slash"
+                        className="mt-3"
                         activeKey={lang}
                         onChange={(itemKey: string) => {
                             setLang(itemKey);
                             setCurrentPage(1);
                         }}
                         tabList={[
-                            { tab: "TurboWarp", itemKey: "projects" },
-                            { tab: "Python", itemKey: "python" },
-                            { tab: "C++", itemKey: "compilers" }
+                            { tab: 'TurboWarp', itemKey: 'projects' },
+                            { tab: 'Python', itemKey: 'python' },
+                            { tab: 'C++', itemKey: 'compilers' },
                         ]}
                     />
                 </div>
@@ -282,25 +307,24 @@ export default function UserPage() {
                     <span>状态</span>
 
                     <Tabs
-                        type='slash'
-                        className='mt-3'
+                        type="slash"
+                        className="mt-3"
                         activeKey={status}
                         onChange={(itemKey: string) => {
                             setStatus(itemKey);
                             setCurrentPage(1);
                         }}
                         tabList={[
-                            { tab: "全部", itemKey: "all" },
-                            { tab: "未发布", itemKey: "0" },
-                            { tab: "审核中", itemKey: "2" },
-                            { tab: "已发布", itemKey: "1" },
-                            { tab: "已下架", itemKey: "removed" }
+                            { tab: '全部', itemKey: 'all' },
+                            { tab: '未发布', itemKey: '0' },
+                            { tab: '审核中', itemKey: '2' },
+                            { tab: '已发布', itemKey: '1' },
+                            { tab: '已下架', itemKey: 'removed' },
                         ]}
                     />
                 </div>
             </Card>
-
             {pageComponent}
         </div>
-    )
+    );
 }

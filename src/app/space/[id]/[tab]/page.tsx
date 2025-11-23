@@ -21,27 +21,65 @@ interface PageParams {
     }>;
 }
 
+const getParamsFromUrl = () => {
+    const pathname = window.location.pathname;
+    const match = pathname.match(/\/space\/(\w+)\/(\w+)/);
+    return {
+        id: match?.[1] || '',
+        tab: match?.[2] || 'home'
+    };
+};
+
+const updateUrlTab = (id: string, tab: string) => {
+    history.pushState(null, '', `/space/${id}/${tab}`);
+};
+
 export default function SpaceTabPage({ params }: PageParams) {
-    const { id, tab } = React.use(params);
+    const initUrlParams = getParamsFromUrl();
+    const [urlParams, setUrlParams] = React.useState(initUrlParams);
+    const { id: urlId, tab: urlTab } = urlParams;
+    const [currentTab, setCurrentTab] = React.useState(urlTab);
     const [spaceProfile, setSpaceProfile] = React.useState<SpaceProfile['data']>();
     const [userSignature, setUserSignature] = React.useState('');
     const [userFollowed, setUserFollowed] = React.useState(false);
-    const [currentTab, setCurrentTab] = React.useState(tab);
 
     const [signatureInputValue, setSignatureInputValue] = React.useState('');
     const [isChangingSignature, setIsChangingSignature] = React.useState(false);
     const signatureInputRef = React.useRef<HTMLInputElement | null>(null);
 
     React.useEffect(() => {
+        const initParams = async () => {
+            const { id: paramId, tab: paramTab } = await params;
+            const { id: urlId, tab: urlTab } = getParamsFromUrl();
+            const finalId = urlId || paramId;
+            const finalTab = urlTab || paramTab || 'home';
+            setUrlParams({ id: finalId, tab: finalTab });
+            setCurrentTab(finalTab);
+        };
+        initParams().catch(console.error);
+    }, [params]);
+
+    React.useEffect(() => {
         const fetchSpaceProfile = async () => {
-            const response = await fetch(`/api/space/profile?user_id=${id}`);
+            if (!urlId) return;
+            const response = await fetch(`/api/space/profile?user_id=${urlId}`);
             const data: SpaceProfile = await response.json();
             setSpaceProfile(data.data);
             setUserFollowed(data.data.is_follow);
             setUserSignature(data.data.signature);
         };
         fetchSpaceProfile().catch(console.error);
-    }, [id]);
+    }, [urlId]);
+
+    React.useEffect(() => {
+        const handlePopState = () => {
+            const newParams = getParamsFromUrl();
+            setUrlParams(newParams);
+            setCurrentTab(newParams.tab);
+        };
+        window.addEventListener('popstate', handlePopState);
+        return () => window.removeEventListener('popstate', handlePopState);
+    }, []);
 
     const handleChangeSignature = async () => {
         setIsChangingSignature(false);
@@ -62,10 +100,11 @@ export default function SpaceTabPage({ params }: PageParams) {
     };
 
     const onClickFollow = async () => {
+        if (!urlId) return;
         const response = await fetch('/api/space/follow', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ followed_user_id: id, state: !userFollowed }),
+            body: JSON.stringify({ followed_user_id: urlId, state: !userFollowed }),
         });
         if (!response.ok) {
             const responseData: ErrorResponse = await response.json();
@@ -73,6 +112,13 @@ export default function SpaceTabPage({ params }: PageParams) {
         }
         setUserFollowed(!userFollowed);
         Toast.success(!userFollowed ? '关注成功' : '取消关注成功');
+    };
+
+    const handleTabChange = (newTab: string) => {
+        if (newTab !== currentTab && urlId) {
+            setCurrentTab(newTab);
+            updateUrlTab(urlId, newTab);
+        }
     };
 
     return (
@@ -83,7 +129,7 @@ export default function SpaceTabPage({ params }: PageParams) {
                     <div style={{ textAlign: 'left' }}>
                         <Typography.Title heading={5}>
                             {spaceProfile?.realname}
-                            <Typography.Text type="secondary">({id})</Typography.Text>
+                            <Typography.Text type="secondary">({urlId})</Typography.Text>
                         </Typography.Title>
                         {isChangingSignature ? (
                             <Input
@@ -127,7 +173,7 @@ export default function SpaceTabPage({ params }: PageParams) {
                         </Typography.Text>
                     </div>
                 </Space>
-                {!spaceProfile?.is_my && (
+                {!spaceProfile?.is_my && urlId && (
                     <Button
                         size="large"
                         onClick={() => onClickFollow().catch(console.error)}
@@ -146,8 +192,8 @@ export default function SpaceTabPage({ params }: PageParams) {
                         defaultIsCollapsed
                         selectedKeys={[navItems.indexOf(currentTab)]}
                         onSelect={(data: OnSelectedData) => {
-                            history.pushState(null, '', `/space/${id}/${navItems[data.itemKey as number]}`);
-                            setCurrentTab(navItems[data.itemKey as number]);
+                            const newTab = navItems[data.itemKey as number];
+                            handleTabChange(newTab);
                         }}
                         items={[
                             {
@@ -182,11 +228,11 @@ export default function SpaceTabPage({ params }: PageParams) {
                     />
                 </Layout.Sider>
                 <Layout.Content className="m-2 mt-2">
-                    {currentTab === 'home' && <SpaceHomePage userId={id} />}
-                    {currentTab === 'cover' && <SpaceCoverPage userId={id} />}
-                    {currentTab === 'projects' && <SpaceProjectsPage userId={id} />}
-                    {currentTab === 'favorites' && <SpaceFavoritesPage userId={id} />}
-                    {currentTab === 'social' && <SpaceSocialPage userId={id} />}
+                    {currentTab === 'home' && <SpaceHomePage userId={urlId} />}
+                    {currentTab === 'cover' && <SpaceCoverPage userId={urlId} />}
+                    {currentTab === 'projects' && <SpaceProjectsPage userId={urlId} />}
+                    {currentTab === 'favorites' && <SpaceFavoritesPage userId={urlId} />}
+                    {currentTab === 'social' && <SpaceSocialPage userId={urlId} />}
                 </Layout.Content>
             </Layout>
         </div>

@@ -16,9 +16,13 @@ interface PageParams {
 }
 const { Sider, Content } = Layout;
 
-export default function MessagePage({ params }: PageParams) {
-    const { category } = React.use(params);
+const getCategoryFromUrl = () => {
+    const pathname = window.location.pathname;
+    const categoryMatch = pathname.match(/\/message\/(\d+)/);
+    return categoryMatch ? categoryMatch[1] : '1';
+};
 
+export default function MessagePage({ params }: PageParams) {
     const readMessages = async () => {
         const messageResponse = await fetch(`/api/messages/overview`);
         const messageResponseData: MessageData = await messageResponse.json();
@@ -28,25 +32,35 @@ export default function MessagePage({ params }: PageParams) {
     const [messages, setMessages] = React.useState<React.JSX.Element>(
         <Typography.Title heading={6}>加载中...</Typography.Title>,
     );
-
-    const [currentTab, setCurrentTab] = React.useState(category);
+    const [currentTab, setCurrentTab] = React.useState(() => getCategoryFromUrl());
     const [currentPage, setCurrentPage] = React.useState(1);
     const [messageData, setMessageData] = React.useState<MessageData | null>(null);
 
     React.useEffect(() => {
-        let ignore = false;
-        if (!document.cookie.includes('is_login=1;')) {
-            location.href = '/login';
-        }
+        const initParams = async () => {
+            const { category } = await params;
+            const urlCategory = getCategoryFromUrl();
+            if (!urlCategory) {
+                setCurrentTab(category);
+                history.replaceState(null, '', `/message/${category}`);
+            }
+        };
+        initParams();
+    }, [params]);
 
-        const func = async () => {
-            console.log(currentTab, typeof currentTab);
+    const fetchMessages = async () => {
+        try {
+            if (!document.cookie.includes('is_login=1;')) {
+                location.href = '/login';
+                return;
+            }
+
             const response = await fetch(`/api/messages?category=${currentTab}&page=${currentPage}&per_page=10`);
             const responseData = await response.json();
 
             await readMessages();
 
-            if (responseData.data['total'] === 0) {
+            if (responseData.data?.total === 0) {
                 setMessages(<Typography.Title heading={6}>暂无消息</Typography.Title>);
             } else {
                 setMessages(
@@ -55,99 +69,54 @@ export default function MessagePage({ params }: PageParams) {
                             <CommentList messages={responseData} onRead={readMessages}></CommentList>
                         )}
                         {currentTab === '5' && <FollowList messages={responseData} onRead={readMessages}></FollowList>}
-                        {responseData.data.total > 10 && (
+                        {responseData.data?.total > 10 && (
                             <Pagination
                                 pageCount={Math.ceil(responseData.data.total / 10)}
                                 value={currentPage}
-                                handlePageChange={page => {
-                                    setCurrentPage(page);
-                                }}
+                                handlePageChange={setCurrentPage}
                             />
                         )}
                     </div>,
                 );
             }
-        };
-
-        if (!ignore) func();
-        return () => {
-            ignore = true;
-        };
-    }, [currentTab, currentPage]);
-
-    const handleTabChange = (eventKey: string) => {
-        if (eventKey !== currentTab) {
-            history.pushState(null, '', `/message/${eventKey}`);
-            window.scrollTo(0, 0);
-            setCurrentTab(eventKey);
-            setCurrentPage(1);
+        } catch (err) {
+            console.error('请求消息失败', err);
+            setMessages(<Typography.Title heading={6}>加载失败，请重试</Typography.Title>);
         }
     };
 
+    const handleTabChange = (eventKey: string) => {
+        if (eventKey !== currentTab) {
+            setCurrentTab(eventKey);
+            setCurrentPage(1);
+            history.pushState(null, '', `/message/${eventKey}`);
+            window.scrollTo(0, 0);
+        }
+    };
+
+    React.useEffect(() => {
+        fetchMessages();
+
+        const handlePopState = () => {
+            const category = getCategoryFromUrl();
+            setCurrentTab(category);
+        };
+
+        window.addEventListener('popstate', handlePopState);
+        return () => window.removeEventListener('popstate', handlePopState);
+    }, [currentTab, currentPage]);
+
     return (
         <Layout>
-            {/* <Grid
-                        size={{ xs: 12, lg: 2 }}
-                        sx={{
-                            position: 'sticky',
-                            top: '10px',
-                            height: 'fit-content',
-                            mb: 2,
-                            zIndex: 1,
-                        }}
-                    >
-                        <Card sx={{ p: 2, boxShadow: 3 }}>
-                            <Typography variant="h5" gutterBottom>
-                                消息中心
-                            </Typography>
-                            <List component="nav">
-                                <ListItem disablePadding>
-                                    <ListItemButton selected={currentTab === '1'} onClick={() => handleTabChange('1')}>
-                                        <ListItemText
-                                            primary={
-                                                <Box display="flex" alignItems="center">
-                                                    评论和回复
-                                                    <Badge
-                                                        color="error"
-                                                        badgeContent={messageData?.data[0].count}
-                                                        sx={{ ml: 1 }}
-                                                    />
-                                                </Box>
-                                            }
-                                        />
-                                    </ListItemButton>
-                                </ListItem>
-                                <ListItem disablePadding>
-                                    <ListItemButton selected={currentTab === '5'} onClick={() => handleTabChange('5')}>
-                                        <ListItemText
-                                            primary={
-                                                <Box display="flex" alignItems="center">
-                                                    关注
-                                                    <Badge
-                                                        color="error"
-                                                        badgeContent={messageData?.data[2].count}
-                                                        sx={{ ml: 1 }}
-                                                    />
-                                                </Box>
-                                            }
-                                        />
-                                    </ListItemButton>
-                                </ListItem>
-                            </List>
-                        </Card>
-                    </Grid> */}
             <Sider>
                 <Nav
-                    style={{ maxWidth: 220, height: '100%' }}
-                    onSelect={(data: OnSelectedData) => {
-                        handleTabChange(data.itemKey as string);
-                    }}
+                    onSelect={(data: OnSelectedData) => handleTabChange(data.itemKey as string)}
                     items={[
                         {
                             text: '评论和回复',
                             itemKey: '1',
                             icon: (
-                                <Badge count={messageData?.data[0].count}>
+                                <Badge count={messageData?.data[0]?.count || 0}>
                                     <IconCommentStroked />
                                 </Badge>
                             ),
@@ -156,15 +125,13 @@ export default function MessagePage({ params }: PageParams) {
                             text: '关注',
                             itemKey: '5',
                             icon: (
-                                <Badge count={messageData?.data[2].count}>
+                                <Badge count={messageData?.data[2]?.count || 0}>
                                     <IconFollowStroked />
                                 </Badge>
                             ),
                         },
                     ]}
-                    footer={{
-                        collapseButton: true,
-                    }}
+                    footer={{ collapseButton: true }}
                     selectedKeys={[currentTab]}
                 />
             </Sider>

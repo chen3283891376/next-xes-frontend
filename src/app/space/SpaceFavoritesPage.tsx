@@ -47,4 +47,4 @@ export default function SpaceFavoritesPage({ userId }: { userId: string }) {
     }, [userId, currentPage]);
 
     return <div className="mt-2">{pageComponent}</div>;
-};
+}

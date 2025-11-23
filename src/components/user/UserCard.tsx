@@ -27,7 +27,7 @@ const HorizontalUserCard = ({
             return;
         }
         setUserFollowed(!userFollowed);
-        Toast.success({ content: userFollowed ? '取消关注成功' : '关注成功', duration: 1.5 })
+        Toast.success({ content: userFollowed ? '取消关注成功' : '关注成功', duration: 1.5 });
     };
 
     return (

@@ -8,6 +8,22 @@ import { UserAndWorkList } from '@/components/user/UserAndWorkList';
 import { OnSelectedData } from '@douyinfe/semi-ui-19/lib/es/navigation';
 import { IconCode, IconListView, IconUser } from '@douyinfe/semi-icons';
 
+const getSearchParamsFromUrl = () => {
+    const searchParams = new URLSearchParams(location.search);
+    return {
+        keyword: searchParams.get('keyword') ? searchParams.get('keyword')! : null,
+        tab: searchParams.get('tab') || 'all',
+    };
+};
+
+const updateUrlTab = (tab: string, keyword: string) => {
+    history.pushState(
+        null,
+        '',
+        `/search?keyword=${encodeURIComponent(keyword)}&tab=${tab}`
+    );
+};
+
 const SearchTabs = {
     AllTab: ({ keyword }: { keyword: string }) => {
         const [currentPage, setCurrentPage] = React.useState(1);
@@ -34,6 +50,7 @@ const SearchTabs = {
                 }
                 if (responseData.data.total === 0) {
                     setPageComponent(<Typography.Title heading={6}>暂无数据</Typography.Title>);
+                    return;
                 }
 
                 setPageComponent(
@@ -81,7 +98,7 @@ const SearchTabs = {
             return () => {
                 ignore = true;
             };
-        }, [currentPage]);
+        }, [currentPage, keyword]);
 
         return <div className="mt-2 m-4">{pageComponent}</div>;
     },
@@ -102,6 +119,7 @@ const SearchTabs = {
 
                 if (responseData.data.total === 0) {
                     setPageComponent(<Typography.Title heading={6}>暂无数据</Typography.Title>);
+                    return;
                 }
 
                 setPageComponent(
@@ -126,7 +144,7 @@ const SearchTabs = {
             return () => {
                 ignore = true;
             };
-        }, [currentPage]);
+        }, [currentPage, keyword]);
 
         return <div className="mt-2 m-4">{pageComponent}</div>;
     },
@@ -174,7 +192,7 @@ const SearchTabs = {
             return () => {
                 ignore = true;
             };
-        }, [currentPage, lang, orderType]);
+        }, [currentPage, lang, orderType, keyword]);
 
         return (
             <div className="mt-2 m-4">
@@ -221,36 +239,28 @@ const { Sider, Content } = Layout;
 const tabs = ['all', 'users', 'projects'];
 
 export default function SearchPage() {
-    const [loaderData, setLoaderData] = React.useState<{
-        keyword: string | null;
-        tab: string | null;
-        isLoggedIn: boolean;
-    }>({
-        keyword: null,
-        tab: null,
-        isLoggedIn: false,
-    });
-    const [currentTab, setCurrentTab] = React.useState<string>('all');
+    const [searchState, setSearchState] = React.useState(() => getSearchParamsFromUrl());
+    const { keyword, tab: currentTab } = searchState;
 
     React.useEffect(() => {
-        const searchParams = new URLSearchParams(location.search);
+        const handlePopState = () => {
+            setSearchState(getSearchParamsFromUrl());
+        };
 
-        const isLoggedIn = document.cookie.includes('is_login=1;') || false;
-        const keyword = searchParams.get('keyword');
-        const tab = searchParams.get('tab');
-        setCurrentTab(tab || 'all');
-
-        setLoaderData({
-            keyword: keyword || null,
-            tab: tab || null,
-            isLoggedIn,
-        });
+        window.addEventListener('popstate', handlePopState);
+        return () => window.removeEventListener('popstate', handlePopState);
     }, []);
-    const keyword = loaderData.keyword;
 
     if (keyword === null) {
         return <Typography.Title heading={6}>获取关键字失败</Typography.Title>;
     }
+
+    const handleTabChange = (newTab: string) => {
+        if (newTab !== currentTab) {
+            setSearchState(prev => ({ ...prev, tab: newTab }));
+            updateUrlTab(newTab, keyword);
+        }
+    };
 
     return (
         <div className="mt-2 m-4">
@@ -264,12 +274,8 @@ export default function SearchPage() {
                         defaultIsCollapsed
                         selectedKeys={[tabs.indexOf(currentTab)]}
                         onSelect={(data: OnSelectedData) => {
-                            history.pushState(
-                                null,
-                                '',
-                                `/search?keyword=${decodeURIComponent(keyword)}&tab=${tabs[data.itemKey as number]}`,
-                            );
-                            setCurrentTab(tabs[data.itemKey as number]);
+                            const newTab = tabs[data.itemKey as number];
+                            handleTabChange(newTab);
                         }}
                         footer={{
                             collapseButton: true,

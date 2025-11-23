@@ -1,15 +1,6 @@
 'use client';
 import React from 'react';
-import {
-    Avatar,
-    BackTop,
-    Badge,
-    Dropdown,
-    Nav,
-    Switch,
-    Tooltip,
-    Typography,
-} from '@douyinfe/semi-ui-19';
+import { Avatar, BackTop, Badge, Dropdown, Nav, Switch, Tooltip, Typography } from '@douyinfe/semi-ui-19';
 import Link from 'next/link';
 import SearchInput from '@/components/SearchInput';
 
@@ -76,11 +67,13 @@ const AppNavbar = () => {
     };
 
     return (
-        <div style={{ 
-            width: '100%', 
-            display: isShowNavbar ? 'block' : 'none', 
-            marginBottom: '16px'
-        }}>
+        <div
+            style={{
+                width: '100%',
+                display: isShowNavbar ? 'block' : 'none',
+                marginBottom: '16px',
+            }}
+        >
             <Nav
                 mode="horizontal"
                 renderWrapper={({ itemElement, isSubNav, isInSubNav, props }) => {
@@ -127,7 +120,7 @@ const AppNavbar = () => {
                                 >
                                     <span>
                                         <Badge count={totalMessageCount}>
-                                            <IconBellStroked className='mt-1 mr-1' />
+                                            <IconBellStroked className="mt-1 mr-1" />
                                         </Badge>
                                     </span>
                                 </Dropdown>
@@ -146,9 +139,7 @@ const AppNavbar = () => {
                                                 <Link href="/userInfo">个人信息</Link>
                                             </Dropdown.Item>
                                             <Dropdown.Divider />
-                                            <Dropdown.Item onClick={logoutEvent}>
-                                                退出登录
-                                            </Dropdown.Item>
+                                            <Dropdown.Item onClick={logoutEvent}>退出登录</Dropdown.Item>
                                         </Dropdown.Menu>
                                     }
                                 >
@@ -170,7 +161,7 @@ const AppNavbar = () => {
                             创作
                         </Dropdown>
 
-                        <Tooltip content="切换模式" position='bottom'>
+                        <Tooltip content="切换模式" position="bottom">
                             <span>
                                 <Switch onChange={toggleNightMode} checked={isNightMode} />
                             </span>

@@ -1,8 +1,8 @@
 'use client';
-import React from "react";
-import { BasicResponse } from "@/interfaces/common";
-import { PublishWorkInfo } from "@/interfaces/work";
-import { WSTerminal } from "@/lib/WebsocketIDE/components/Terminal";
+import React from 'react';
+import { BasicResponse } from '@/interfaces/common';
+import { PublishWorkInfo } from '@/interfaces/work';
+import { WSTerminal } from '@/lib/WebsocketIDE/components/Terminal';
 
 interface PageParams {
     params: Promise<{

@@ -10,7 +10,7 @@ const WorkCard = ({ work }: { work: Work }) => {
     const author_url = `/space/${work.user_id}/home`;
 
     return (
-        <Tooltip content={work.created_at || work.published_at} position='bottom'>
+        <Tooltip content={work.created_at || work.published_at} position="bottom">
             <span>
                 <Card
                     title={
@@ -75,7 +75,10 @@ const SmallWorkCard = ({ work }: { work: Work }) => {
                         <a key={uuidV4()} href={getWorkLink(work)} target="_blank" rel="noopener noreferrer">
                             <img className="mx-auto" src={work.thumbnail} alt={work.name} style={{ maxHeight: 138 }} />
                             <Divider />
-                            <Typography.Text link={{ href: getWorkLink(work), target: '_blank' }} style={{ fontSize: 16 }}>
+                            <Typography.Text
+                                link={{ href: getWorkLink(work), target: '_blank' }}
+                                style={{ fontSize: 16 }}
+                            >
                                 {work.name.replace(/<em>|<\/em>/g, '')}
                             </Typography.Text>
                         </a>,

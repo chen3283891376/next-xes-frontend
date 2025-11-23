@@ -233,4 +233,4 @@ export default function SpaceHomePage({ userId }: { userId: string }) {
     }, [userId]);
 
     return <div className="mt-4 px-2 md:px-4 max-w-7xl mx-auto">{pageComponent}</div>;
-};
+}

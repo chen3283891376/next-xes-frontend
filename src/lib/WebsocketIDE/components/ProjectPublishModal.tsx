@@ -95,16 +95,16 @@ const ProjectPublishModal = ({
                                 const reader = new FileReader();
                                 const file = e.target.files[0];
                                 const FileExtension = file.name.split('.').pop()?.toLowerCase() || '';
-                                
+
                                 reader.readAsArrayBuffer(file);
                                 reader.onload = async e => {
                                     if (e.target && e.target.result) {
                                         const ThumbnailImageArrayBuffer = e.target.result as ArrayBuffer;
-                                        
+
                                         const spark = new SparkMD5.ArrayBuffer();
                                         spark.append(ThumbnailImageArrayBuffer);
                                         const md5 = spark.end();
-                                        
+
                                         const reader2 = new FileReader();
                                         reader2.readAsArrayBuffer(file);
                                         reader2.onload = async e2 => {
@@ -114,14 +114,17 @@ const ProjectPublishModal = ({
                                                         `/api/assets/v2/get_tss_upload_params?filename=${md5}.${FileExtension}&md5=${md5}&scene=thumbnail`,
                                                     );
                                                     const responseData = await response.json();
-                                                    
+
                                                     await fetch(responseData.data.host, {
                                                         method: 'PUT',
                                                         headers: responseData.data.headers,
                                                         body: e2.target.result,
                                                     });
-                                                    
-                                                    setThumbnailImage(responseData.data.url + '?x-oss-process=image/resize,w_640/format,webp');
+
+                                                    setThumbnailImage(
+                                                        responseData.data.url +
+                                                            '?x-oss-process=image/resize,w_640/format,webp',
+                                                    );
                                                 } catch (error) {
                                                     console.error('上传失败:', error);
                                                 }

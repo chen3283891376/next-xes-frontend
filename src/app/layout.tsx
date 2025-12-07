@@ -26,6 +26,7 @@ export default function RootLayout({
     return (
         <html lang="zh-CN">
             <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+                {/* <body> */}
                 <AppNavbar />
                 <div className="flex-1">{children}</div>
                 <AppFooter />

@@ -12,11 +12,12 @@ import {
 } from '@douyinfe/semi-icons';
 import { Pagination } from '@/components/common/Pagination';
 import WorkList from '@/components/work/WorkList';
+import { getEditWorkLink, getWorkLink } from '@/utils';
+import ProjectPublishModal from '@/lib/WebsocketIDE/components/ProjectPublishModal';
 
-import { ErrorResponse } from '@/interfaces/common';
+import { BasicResponse, ErrorResponse } from '@/interfaces/common';
 import { UserWorkList } from '@/interfaces/user';
 import { PublishWorkInfo, Work } from '@/interfaces/work';
-import { getEditWorkLink, getWorkLink } from '@/utils';
 
 const FixedWorkCard = (
     onClickPublish: (work: PublishWorkInfo) => void,
@@ -177,7 +178,7 @@ export default function UserPage() {
             );
 
             if (!response.ok) {
-                if (currentPage > 1) setCurrentPage(prev => prev - 1)
+                if (currentPage > 1) setCurrentPage(prev => prev - 1);
                 throw new Error('Failed to fetch data');
             }
 
@@ -198,8 +199,12 @@ export default function UserPage() {
                         works={responseData.data.data}
                         enableRemoved={false}
                         WorkCardInterface={FixedWorkCard(
-                            (work: PublishWorkInfo) => {
-                                publishWork.current = work;
+                            async (work: PublishWorkInfo) => {
+                                const response = await fetch(
+                                    `/api/${work.project_type === 'compiler' ? 'compilers' : 'projects'}/${work.id}?id=${work.id}`,
+                                );
+                                const data: BasicResponse<PublishWorkInfo> = await response.json();
+                                publishWork.current = data.data;
                                 setShowPublishModal(true);
                             },
                             async (work: PublishWorkInfo) => {
@@ -244,17 +249,18 @@ export default function UserPage() {
                 </Typography.Title>,
             );
         }
-    }, [type, lang, status, currentPage]);
+    }, [type, lang, status, currentPage, showPublishModal]);
+
     React.useEffect(() => {
         let ignore = false;
-        
+
         const func = async () => {
             if (!ignore) {
                 await fetchData();
             }
         };
         func();
-        
+
         return () => {
             ignore = true;
         };
@@ -262,14 +268,6 @@ export default function UserPage() {
 
     return (
         <div className="mt-2 m-4">
-            {/* TODO: 发布作品弹窗 */}
-            {/* {showPublishModal && publishWork.current && (
-                <ProjectPublishModal
-                    workInfo={publishWork.current}
-                    isShow={showPublishModal}
-                    setIsShow={setShowPublishModal}
-                />
-            )} */}
             <Card className="mb-4">
                 <Tabs
                     tabList={[
@@ -325,6 +323,13 @@ export default function UserPage() {
                 </div>
             </Card>
             {pageComponent}
+            {showPublishModal && publishWork.current && (
+                <ProjectPublishModal
+                    workInfo={publishWork.current}
+                    visible={showPublishModal}
+                    setVisible={setShowPublishModal}
+                />
+            )}
         </div>
     );
 }

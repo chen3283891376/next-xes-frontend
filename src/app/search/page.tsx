@@ -17,11 +17,7 @@ const getSearchParamsFromUrl = () => {
 };
 
 const updateUrlTab = (tab: string, keyword: string) => {
-    history.pushState(
-        null,
-        '',
-        `/search?keyword=${encodeURIComponent(keyword)}&tab=${tab}`
-    );
+    history.pushState(null, '', `/search?keyword=${encodeURIComponent(keyword)}&tab=${tab}`);
 };
 
 const SearchTabs = {

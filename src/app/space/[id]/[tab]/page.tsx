@@ -26,7 +26,7 @@ const getParamsFromUrl = () => {
     const match = pathname.match(/\/space\/(\w+)\/(\w+)/);
     return {
         id: match?.[1] || '',
-        tab: match?.[2] || 'home'
+        tab: match?.[2] || 'home',
     };
 };
 

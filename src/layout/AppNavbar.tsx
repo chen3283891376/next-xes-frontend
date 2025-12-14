@@ -29,7 +29,7 @@ const AppNavbar = () => {
         setIsLoggedIn(document.cookie.includes('is_login=1;') || false);
         setIsNightMode(localStorage.getItem('isNightMode') === 'true' || mediaQuery.matches);
 
-        if (location.pathname.includes('/embed')) setIsShowNavbar(false);
+        if (location.pathname.includes('/embed') || location.pathname.includes('/eula')) setIsShowNavbar(false);
 
         const fetchData = async () => {
             if (document.cookie.includes('is_login=1;')) {

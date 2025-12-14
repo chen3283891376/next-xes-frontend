@@ -4,10 +4,12 @@ import { IconButton } from '@douyinfe/semi-ui-19';
 import { IconGithubLogo as GitHub } from '@douyinfe/semi-icons';
 
 export default function AppFooter() {
-    let isShowFooter = true;
-    if (location.pathname.includes('/embed')) {
-        isShowFooter = false;
-    }
+    const [isShowFooter, setIsShowFooter] = React.useState(true);
+    React.useEffect(() => {
+        if (location.pathname.includes('/embed') || location.pathname.includes('/eula')) {
+            setIsShowFooter(false);
+        }
+    }, []);
     return (
         <div
             className="flex justify-between bg-neutral-700 px-4 py-1 text-white"

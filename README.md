@@ -2,10 +2,6 @@
 
 > 学而思新的前端体验（第三方）
 
-> [!WARNING]
->
-> 因为React19的一些Breaking Changes，导致项目的依赖 Semi Design 还未开发兼容包，故暂时一些功能无法运行。
-
 ## 准备开发
 
 1. 下载项目 `git clone https://github.com/chen3283891376/next-xes-frontend.git`

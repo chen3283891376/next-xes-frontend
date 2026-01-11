@@ -3,6 +3,7 @@ import React from 'react';
 import { Avatar, BackTop, Badge, Dropdown, Nav, Switch, Tooltip, Typography } from '@douyinfe/semi-ui-19';
 import Link from 'next/link';
 import SearchInput from '@/components/SearchInput';
+import gsap from '@/lib/gsap';
 
 import type { UserInfo } from '@/interfaces/user';
 import { IconBellStroked, IconCommentStroked, IconFollowStroked } from '@douyinfe/semi-icons';
@@ -66,8 +67,17 @@ const AppNavbar = () => {
         setIsNightMode(!isNightMode);
     };
 
+    const navRef = React.useRef<HTMLDivElement | null>(null);
+
+    React.useEffect(() => {
+        const el = navRef.current;
+        if (!el) return;
+        gsap.from(el, { opacity: 0, y: -10, duration: 0.6, ease: 'power2.out' });
+    }, []);
+
     return (
         <div
+            ref={navRef}
             style={{
                 width: '100%',
                 display: isShowNavbar ? 'block' : 'none',

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import AppFooter from '@/layout/AppFooter';
 import AppNavbar from '@/layout/AppNavbar';
+import PageTransition from '@/components/PageTransition';
 
 const geistSans = Geist({
     variable: '--font-geist-sans',
@@ -28,7 +29,9 @@ export default function RootLayout({
             <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
                 {/* <body> */}
                 <AppNavbar />
-                <div className="flex-1">{children}</div>
+                <div className="flex-1">
+                    <PageTransition>{children}</PageTransition>
+                </div>
                 <AppFooter />
             </body>
         </html>

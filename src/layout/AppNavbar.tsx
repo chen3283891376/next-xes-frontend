@@ -138,6 +138,9 @@ const AppNavbar = () => {
                                             <Dropdown.Item>
                                                 <Link href="/userInfo">个人信息</Link>
                                             </Dropdown.Item>
+                                            <Dropdown.Item>
+                                                <Link href="/settings">可选功能</Link>
+                                            </Dropdown.Item>
                                             <Dropdown.Divider />
                                             <Dropdown.Item onClick={logoutEvent}>退出登录</Dropdown.Item>
                                         </Dropdown.Menu>

@@ -52,7 +52,7 @@ export default function Home() {
     }, []);
     return (
         <>
-            <Typography.Title heading={3} className="text-center">
+            <Typography.Title heading={isLoggedIn ? 3 : 1} className="text-center">
                 <span className="msg">{isLoggedIn ? '我的关注' : '欢迎来到NewXesFrontend'}</span>
                 <span className="cursor">|</span>
             </Typography.Title>

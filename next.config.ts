@@ -9,6 +9,10 @@ const nextConfig: NextConfig = {
                 source: '/api/:path*',
                 destination: 'https://code.xueersi.com/api/:path*',
             },
+            {
+                source: '/removed/api/:path*',
+                destination: 'https://chenify.pythonanywhere.com/api/:path*',
+            }
         ];
     },
 };

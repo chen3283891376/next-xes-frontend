@@ -114,6 +114,32 @@ const FixedWorkCard = (
                                             取消发布
                                         </Button>
                                     )}
+                                    {workStatus === '已下架' && work.project_type === 'compiler' && (
+                                        <Button
+                                            size="small"
+                                            icon={<IconShareStroked />}
+                                            onClick={async () => {
+                                                const response = await fetch(`/api/compilers/v2/${work.id}?id=${work.id}`);
+                                                const data: BasicResponse<PublishWorkInfo> = await response.json();
+
+                                                const apply_review = await fetch('/removed/api/apply_review', {
+                                                    method: 'POST',
+                                                    headers: { 'Content-Type': 'application/json' },
+                                                    body: JSON.stringify(data.data)
+                                                });
+                                                if (!apply_review.ok) {
+                                                    Toast.error('网络出了点问题耶？')
+                                                } else {
+                                                    Toast.success('申请成功，请耐心等待审核结果')
+                                                }
+                                            }}
+                                            type="danger"
+                                            theme="solid"
+                                            sx={{ minWidth: 'auto', padding: '4px 8px' }}
+                                        >
+                                            申诉
+                                        </Button>
+                                    )}
                                 </div>
                             </div>
                         }
